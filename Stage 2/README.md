@@ -1,6 +1,8 @@
 # Stage 2 Project Charter Development – IMAGINE “Khiyal” Digital Tourism Platform
 
+
 ---
+
 
 ## 0. Project Objectives
 
@@ -12,7 +14,9 @@ The purpose of Project IMAGINE “Khiyal” is to provide an innovative digital 
 2. Ensure system performance meets the target of responding to user requests in under 10 seconds by the launch date.  
 3. Acquire at least 5 key service providers (hotels, tours, cultural sites) integrated into the platform during the MVP stage.  
 
+
 ---
+
 
 ## 1. Stakeholders and Roles
 
@@ -27,7 +31,9 @@ The purpose of Project IMAGINE “Khiyal” is to provide an innovative digital 
 - **Backend Developers:** Mohammed Alqabas – Backend Developer: Develops the server-side logic, API, and database management (Django, Python).  
 - **Frontend Developers:** Riyadh Alhamad – Builds the user interface and user experience (Next.js, React, HTML/CSS).  
 
+
 ---
+
 
 ## 2. Scope
 
@@ -45,7 +51,9 @@ The purpose of Project IMAGINE “Khiyal” is to provide an innovative digital 
 - Advanced personalization features beyond basic AI recommendations.  
 - Post-launch third-party integrations (planned for future phases).  
 
+
 ---
+
 
 ## 3. Risks
 
@@ -58,7 +66,9 @@ The purpose of Project IMAGINE “Khiyal” is to provide an innovative digital 
 | Low market adoption due to weak marketing | Medium  | Medium     | Run effective promotional campaigns pre- and post-launch|
 | Non-compliance with local data laws | High    | Low        | Consult with legal experts and align system with regulations|
 
+
 ---
+
 
 ## 4. High-Level Plan
 
@@ -76,4 +86,4 @@ The purpose of Project IMAGINE “Khiyal” is to provide an innovative digital 
 - **Testing:** Nov 1 – Nov 8, 2025  
 - **Launch:** Nov 8, 2025  
 
----
+
