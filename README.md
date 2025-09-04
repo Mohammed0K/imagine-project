@@ -1,4 +1,4 @@
-# imagine-project
+# IMAGINE Project
 Tourism and cultural platform project (IMAGINE), including all development stages and reports.
 
 ---
