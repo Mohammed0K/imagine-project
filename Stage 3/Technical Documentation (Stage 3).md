@@ -118,3 +118,13 @@ sequenceDiagram
     D-->>B: 5. Saved (ID, status=PENDING)
     B-->>F: 6. 201 Created + JSON
     F-->>U: 7. Show confirmation
+
+# 4. API Specifications (v1)
+
+All endpoints are JSON. Auth via **JWT Bearer** on protected routes.
+
+## Auth
+### POST `/api/auth/register`
+Request:
+```json
+{ "full_name": "John Doe", "email": "john@ex.com", "password": "Str0ng#Pass", "role": "GUIDE" }
