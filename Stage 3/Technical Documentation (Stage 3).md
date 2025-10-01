@@ -111,3 +111,19 @@ erDiagram
     Conversation ||--o{ Message : "1-N"
     User ||--o{ Conversation : "2 Users"
 
+# 3. Sequence Diagram (Booking Flow)
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant B as Backend
+    participant D as Database
+
+    U->>F: 1. Open Application
+    U->>F: 2. Enter booking details
+    F->>B: 3. API: POST /api/bookings
+    B->>D: 4. INSERT Booking
+    D-->>B: 5. Saved (ID, status=PENDING)
+    B-->>F: 6. 201 Created + JSON
+    F-->>U: 7. Show confirmation
