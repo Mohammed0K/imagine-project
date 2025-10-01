@@ -28,3 +28,95 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 
 ## Diagram
 ![System Architecture](System%20Architecture.drawio.png)
+
+# 2. Components, Roles, and Database Design
+
+## 1) Components (High-Level)
+
+### Frontend (Next.js)
+- **Pages**: `/`, `/login`, `/signup`, `/guides`, `/tours`, `/tours/[id]`, `/dashboard`
+- **UI Components**: `Navbar`, `Footer`, `TourCard`, `GuideCard`, `BookingForm`, `ReviewList`, `ProfileForm`
+- **State Management**: Auth state (JWT), API calls via SWR / React Query
+- **Access Control**: Role-based guards (`Admin | Guide | Tourist`)
+
+### Backend (Django + DRF)
+- **Apps**: `users`, `tours`, `bookings`, `reviews`, `messaging`
+- **Structure**: Models → Serializers → ViewSets → URLs
+- **Security**: JWT Authentication, DRF Permissions
+- **Core Services**: CRUD for tours, bookings, reviews, messaging
+
+### Database (MySQL)
+- **Schema**: Normalized relational schema for `Users`, `Guides`, `Tours`, `Bookings`, `Reviews`, `Conversations`, `Messages`
+- **Constraints**: Enforced with foreign keys
+
+---
+
+## 2) Roles and Permissions
+
+- **Admin**: Manage users, approve/disable guides, remove inappropriate content  
+- **Guide**: Create/manage tours, confirm/cancel bookings, communicate with tourists  
+- **Tourist**: Browse tours, create bookings, submit reviews, message guides  
+- **Visitor**: Browse only  
+
+---
+
+## 3) Core Classes / Models
+
+### `users.User`
+- `id`, `email`, `password_hash`  
+- `role` (ADMIN, GUIDE, TOURIST)  
+- `full_name`, `phone`, `avatar_url`  
+- `is_active`, `is_verified_email`  
+- `created_at`, `updated_at`  
+
+### `users.GuideProfile`
+- `id`, `user_id (FK → User)`  
+- `bio`, `languages`, `years_of_experience`  
+- `rating_avg`, `reviews_count`  
+- `location_city`, `location_country`  
+
+### `tours.Tour`
+- `id`, `guide_id (FK → GuideProfile)`  
+- `title`, `description`, `category`  
+- `price`, `currency`, `duration_hours`  
+- `capacity`, `available_from`, `available_to`  
+- `meeting_point_text`, `latitude`, `longitude`  
+- `is_published`, `images (JSON)`  
+- `rating_avg`, `reviews_count`  
+- `created_at`, `updated_at`  
+
+### `bookings.Booking`
+- `id`, `tour_id (FK → Tour)`, `tourist_id (FK → User)`  
+- `status (PENDING, CONFIRMED, CANCELLED, COMPLETED)`  
+- `people_count`, `booking_date`  
+- `total_amount`, `currency`  
+- `notes`, `created_at`, `updated_at`  
+
+### `reviews.Review`
+- `id`, `booking_id (FK → Booking, unique)`  
+- `tour_id (FK → Tour)`, `author_id (FK → User)`  
+- `rating`, `comment`, `created_at`  
+
+### `messaging.Conversation`
+- `id`, `starter_id`, `participant_id (FK → User)`  
+- `last_message_at`, `is_blocked`  
+
+### `messaging.Message`
+- `id`, `conversation_id (FK → Conversation)`  
+- `sender_id (FK → User)`  
+- `body`, `read_at`, `created_at`  
+
+---
+
+## 4) Database Design (Simplified ERD)
+
+```mermaid
+erDiagram
+    User ||--o| GuideProfile : "1-1"
+    GuideProfile ||--o{ Tour : "1-N"
+    Tour ||--o{ Booking : "1-N"
+    User ||--o{ Booking : "1-N (Tourist)"
+    Booking ||--|| Review : "1-1"
+    Conversation ||--o{ Message : "1-N"
+    User ||--o{ Conversation : "2 Users"
+
