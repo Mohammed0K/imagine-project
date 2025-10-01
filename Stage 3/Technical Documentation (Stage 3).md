@@ -31,7 +31,7 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 
 # 2. Components, Roles, and Database Design
 
-## 1) Components (High-Level)
+## - Components (High-Level)
 
 ### Frontend (Next.js)
 - **Pages**: `/`, `/login`, `/signup`, `/guides`, `/tours`, `/tours/[id]`, `/dashboard`
@@ -51,7 +51,7 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 
 ---
 
-## 2) Roles and Permissions
+## - Roles and Permissions
 
 - **Admin**: Manage users, approve/disable guides, remove inappropriate content  
 - **Guide**: Create/manage tours, confirm/cancel bookings, communicate with tourists  
@@ -60,7 +60,7 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 
 ---
 
-## 3) Core Classes / Models
+## - Core Classes / Models
 
 ### `users.User`
 - `id`, `email`, `password_hash`  
@@ -97,18 +97,9 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 - `tour_id (FK → Tour)`, `author_id (FK → User)`  
 - `rating`, `comment`, `created_at`  
 
-### `messaging.Conversation`
-- `id`, `starter_id`, `participant_id (FK → User)`  
-- `last_message_at`, `is_blocked`  
-
-### `messaging.Message`
-- `id`, `conversation_id (FK → Conversation)`  
-- `sender_id (FK → User)`  
-- `body`, `read_at`, `created_at`  
-
 ---
 
-## 4) Database Design (Simplified ERD)
+## - Database Design (Simplified ERD)
 
 ```mermaid
 erDiagram
