@@ -14,3 +14,17 @@
 
 ## Won’t Have
 - Real-time chat (not in MVP).
+
+# 1. System Architecture
+
+## High-Level Components
+- **Frontend**: Next.js web interface (React-based).
+- **Backend**: Python + Django REST Framework (DRF).
+- **Database**: MySQL relational database.
+- **External API (if applicable)**: Optional future integrations (e.g., payment gateway, maps API).
+
+## Data Flow
+Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) → Database (MySQL) → Response → User
+
+## Diagram
+![System Architecture](System%20Architecture.drawio.png)
