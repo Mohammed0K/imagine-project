@@ -14,7 +14,7 @@
 
 ## Won’t Have
 - Real-time chat (not in MVP).
-
+---
 
 # 1. System Architecture
 
@@ -29,7 +29,7 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 
 ## Diagram
 ![System Architecture](System%20Architecture.drawio.png)
-
+---
 
 # 2. Components, Roles, and Database Design
 
@@ -120,7 +120,7 @@ sequenceDiagram
     F-->>U: 7. Show confirmation
 
 ```
-
+---
 # 4. API Specifications
 
 | Method | Endpoint              | Auth   | Request Body                                                                                      | Response (201/200) Example                                                   |
@@ -134,3 +134,31 @@ sequenceDiagram
 | GET    | `/api/bookings/{id}`  | JWT    | –                                                                                                | `{ "id": 9001, "status": "PENDING", "people_count": 2 }`                   |
 | POST   | `/api/reviews`        | JWT    | `{ "booking_id": 9001, "rating": 5, "comment": "Great tour" }`                                   | `{ "id": 501, "rating": 5, "comment": "Great tour" }`                      |
 | GET    | `/api/tours/{id}/reviews` | Public | –                                                                                             | `[ { "id": 501, "rating": 5, "comment": "Great tour", "author_id": 7 } ]`  |
+---
+
+# 5. SCM and QA Strategies
+
+## Source Control Management (SCM)
+- **Repository**: GitHub
+- **Branching Strategy**:
+  - `main` → production-ready code
+  - `dev` → integration branch for testing
+  - `feature/*` → individual features or bug fixes
+- **Pull Requests**:
+  - Required for merging into `dev` and `main`
+  - Code review mandatory
+  - CI checks must pass before merge
+
+## Quality Assurance (QA)
+- **Backend Tests**:
+  - Django Unit Tests (models, serializers, views, permissions)
+- **Frontend Tests**:
+  - Jest + React Testing Library for UI components and pages
+- **Integration Tests**:
+  - Postman collections / Newman CLI for API endpoints
+- **Continuous Integration (CI)**:
+  - GitHub Actions to run tests on every pull request
+  - Coverage reports and linting (ESLint, flake8)
+- **Manual QA**:
+  - Staging environment for exploratory and regression testing
+
