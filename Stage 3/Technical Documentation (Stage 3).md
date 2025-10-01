@@ -123,10 +123,14 @@ sequenceDiagram
 
 # 4. API Specifications (v1)
 
-All endpoints are JSON. Auth via **JWT Bearer** on protected routes.
-
-## Auth
-### POST `/api/auth/register`
-Request:
-```json
-{ "full_name": "John Doe", "email": "john@ex.com", "password": "Str0ng#Pass", "role": "GUIDE" }
+| Method | Endpoint              | Auth   | Request Body                                                                                      | Response (201/200) Example                                                   |
+|--------|-----------------------|--------|--------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| POST   | `/api/auth/register`  | Public | `{ "full_name": "John Doe", "email": "john@ex.com", "password": "Str0ng#Pass", "role": "GUIDE" }` | `{ "id": 1, "email": "john@ex.com", "role": "GUIDE" }`                     |
+| POST   | `/api/auth/token`     | Public | `{ "email": "john@ex.com", "password": "Str0ng#Pass" }`                                          | `{ "access": "<jwt>", "refresh": "<jwt>" }`                                |
+| GET    | `/api/guides`         | Public | –                                                                                                | `[ { "id": 11, "full_name": "Sara", "rating_avg": 4.8 } ]`                 |
+| GET    | `/api/tours`          | Public | –                                                                                                | `[ { "id": 101, "title": "Old Riyadh Walk", "price": 150.00, "currency":"SAR"} ]` |
+| GET    | `/api/tours/{id}`     | Public | –                                                                                                | `{ "id": 101, "title": "...", "description": "...", "capacity": 8 }`       |
+| POST   | `/api/bookings`       | JWT    | `{ "tour_id": 101, "people_count": 2, "booking_date": "2025-10-10T09:00:00Z" }`                  | `{ "id": 9001, "status": "PENDING", "total_amount": 300.00, "currency":"SAR" }` |
+| GET    | `/api/bookings/{id}`  | JWT    | –                                                                                                | `{ "id": 9001, "status": "PENDING", "people_count": 2 }`                   |
+| POST   | `/api/reviews`        | JWT    | `{ "booking_id": 9001, "rating": 5, "comment": "Great tour" }`                                   | `{ "id": 501, "rating": 5, "comment": "Great tour" }`                      |
+| GET    | `/api/tours/{id}/reviews` | Public | –                                                                                             | `[ { "id": 501, "rating": 5, "comment": "Great tour", "author_id": 7 } ]`  |
