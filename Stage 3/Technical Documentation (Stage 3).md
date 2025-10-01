@@ -99,18 +99,6 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 
 ---
 
-## - Database Design (Simplified ERD)
-
-```mermaid
-erDiagram
-    User ||--o| GuideProfile : "1-1"
-    GuideProfile ||--o{ Tour : "1-N"
-    Tour ||--o{ Booking : "1-N"
-    User ||--o{ Booking : "1-N (Tourist)"
-    Booking ||--|| Review : "1-1"
-    Conversation ||--o{ Message : "1-N"
-    User ||--o{ Conversation : "2 Users"
-
 # 3. Sequence Diagram (Booking Flow)
 
 ```mermaid
