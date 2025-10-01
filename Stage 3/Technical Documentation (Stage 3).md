@@ -15,6 +15,7 @@
 ## Won’t Have
 - Real-time chat (not in MVP).
 
+
 # 1. System Architecture
 
 ## High-Level Components
@@ -28,6 +29,7 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 
 ## Diagram
 ![System Architecture](System%20Architecture.drawio.png)
+
 
 # 2. Components, Roles, and Database Design
 
@@ -98,6 +100,7 @@ Admin / Guide / Tourist → Frontend (Next.js) → Backend (Django REST API) →
 - `rating`, `comment`, `created_at`  
 
 ---
+
 
 # 3. Sequence Diagram (Booking Flow)
 
