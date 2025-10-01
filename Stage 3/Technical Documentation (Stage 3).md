@@ -119,6 +119,8 @@ sequenceDiagram
     B-->>F: 6. 201 Created + JSON
     F-->>U: 7. Show confirmation
 
+```
+
 # 4. API Specifications (v1)
 
 All endpoints are JSON. Auth via **JWT Bearer** on protected routes.
