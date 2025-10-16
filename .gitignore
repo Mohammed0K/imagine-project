@@ -1,0 +1,18 @@
+# Deps
+frontend/ui/node_modules/
+IMAGINE/frontend/ui/node_modules/
+
+# Next build
+frontend/ui/.next/
+IMAGINE/frontend/ui/.next/
+
+# Env
+.env*
+# Logs
+npm-debug.log*
+yarn-*.log*
+# Editors/OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
