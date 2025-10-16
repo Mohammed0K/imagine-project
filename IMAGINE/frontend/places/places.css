@@ -64,97 +64,23 @@ nav a:hover {
   border-radius: 6px;
 }
 
-/* ===== Hero ===== */
-.hero {
-  position: relative;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: white;
-}
-
-.hero-bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.75);
-  z-index: -1;
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(170, 229, 188, 0.411), #0000008c);
-  z-index: 0;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 10;
-  max-width: 700px;
-  padding: 20px;
-}
-
-.hero-content h1 {
-  font-size: 3rem;
-  line-height: 1.3;
-}
-
-.hero-content span {
-  color: #d2b4f2; /* لون الخزامى */
-}
-
-.hero-content p {
-  margin: 20px 0;
-  font-size: 1.1rem;
-}
-
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.btn {
-  padding: 12px 26px;
-  text-decoration: none;
-  border-radius: 25px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.btn.primary {
-  background: linear-gradient(90deg, #9bb56d, #7a9163);
-  color: white;
-}
-
-.btn.secondary {
-  border: 2px solid white;
-  color: white;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-}
-
-/* ===== Destinations ===== */
-.destinations {
-  padding: 100px 40px;
+/* ===== Places ===== */
+.places {
+  padding: 120px 40px 100px;
   text-align: center;
   background: #f9f9f9;
 }
 
-.destinations h2 {
+.places h2 {
   color: #556b2f;
   margin-bottom: 10px;
+  font-size: 2.2rem;
 }
 
-.destinations .subtitle {
+.places .subtitle {
   color: #666;
   margin-bottom: 40px;
+  font-size: 1.1rem;
 }
 
 .cards {
@@ -167,7 +93,7 @@ nav a:hover {
   background: white;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 3px 10px rgba(5, 5, 5, 0.507);
+  box-shadow: 0 3px 10px rgba(5, 5, 5, 0.2);
   transition: 0.3s;
 }
 
@@ -181,32 +107,41 @@ nav a:hover {
   object-fit: cover;
 }
 
+.card-content {
+  padding: 15px 20px 25px;
+}
+
 .card h3 {
-  margin: 15px 0 5px;
+  margin: 10px 0 5px;
   color: #4f6033;
 }
 
-.card p {
-  padding: 0 20px 20px;
-  color: #666;
-  font-size: 0.95rem;
-}
-
-/* ===== CTA ===== */
-.cta {
-  background: linear-gradient(135deg, #efe5ff, #fff8e7);
-  text-align: center;
-  padding: 80px 20px;
-}
-
-.cta h2 {
-  color: #4f6033;
+.card small {
+  display: block;
+  color: #777;
   margin-bottom: 10px;
 }
 
-.cta p {
-  margin-bottom: 20px;
-  color: #555;
+.card p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.btn {
+  background: linear-gradient(90deg, #9bb56d, #7a9163);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.btn:hover {
+  transform: scale(1.05);
 }
 
 /* ===== Footer ===== */
