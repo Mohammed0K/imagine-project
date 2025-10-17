@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | IMAGINE</title>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="contact.css" />
+</head>
+
+<body>
+  <!-- 🕌 Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <h1 class="logo">Imagine<span>.</span></h1>
+      <nav>
+        <ul>
+          <li><a href="../home/home.html">Home</a></li>
+          <li><a href="../places/places.html">Places</a></li>
+          <li><a href="../guides/guides.html">Guides</a></li>
+          <li><a href="../contact/contact.html" class="active">Contact</a></li>
+          <li><a href="../login/login.html" class="login-btn">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 📩 Contact Section -->
+  <section class="contact-section">
+    <div class="container">
+      <h2>Get in Touch</h2>
+      <p class="subtitle">We’d love to hear from you! Feel free to reach out for questions or partnerships.</p>
+
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Write your message..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+
+      <div class="socials">
+        <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" title="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⚓ Footer -->
+  <footer class="footer">
+    <p>© 2025 Imagine Project — All rights reserved.</p>
+  </footer>
+
+  <script src="contact.js"></script>
+</body>
+</html>
