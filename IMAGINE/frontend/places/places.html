@@ -7,37 +7,49 @@
     <link rel="stylesheet" href="places.css" />
   </head>
   <body>
-  
     <!-- 🕌 Navbar -->
-  <header class="navbar">
-    <div class="container">
-      <h1 class="logo">Imagine<span>.</span></h1>
-      <nav>
-        <ul>
-          <li><a href="../home/home.html" >Home</a></li>
-          <li><a href="../places/places.html"class="active">Places</a></li>
-          <li><a href="../guides/index.html">Guides</a></li>
-          <li><a href="../contact/index.html">Contact</a></li>
-          <li><a href="../login/index.html" class="login-btn">Login</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+    <header class="navbar">
+      <div class="container">
+        <h1 class="logo">Imagine<span>.</span></h1>
+        <nav>
+          <ul>
+            <li><a href="../home/home.html">Home</a></li>
+            <li>
+              <a href="../places/places.html" class="active">Places</a>
+            </li>
+            <li><a href="../guides/guides.html">Guides</a></li>
+            <li><a href="../contact/contact.html">Contact</a></li>
+            <li><a href="../login/login.html" class="login-btn">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-    <!-- Places Section -->
+    <!-- 🏜️ Hero Section -->
+<section class="places-hero">
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <h1>Journey Through <span class="highlight">Timeless Beauty</span></h1>
+    <p>
+      Experience the perfect blend of ancient heritage and modern luxury in the
+      heart of Arabia.
+    </p>
+  </div>
+</section>
+
+
+    <!-- 📍 Places Section -->
     <section class="places">
-      <h2>Discover Amazing Places in Saudi Arabia</h2>
-      <p class="subtitle">Explore the beauty of culture, history, and nature</p>
+      <h2>Top Destinations</h2>
+      <p class="subtitle">Explore the hidden gems of Saudi Arabia</p>
 
       <div id="places-container" class="cards">
         <!-- JS injects cards here -->
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-      © 2025 IMAGINE. All Rights Reserved.
-    </footer>
+    <!-- 🦶 Footer -->
+    <footer class="footer">© 2025 IMAGINE. All Rights Reserved.</footer>
 
     <script src="places.js"></script>
   </body>
