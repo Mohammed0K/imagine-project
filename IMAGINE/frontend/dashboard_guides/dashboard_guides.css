@@ -43,12 +43,38 @@ body {
   text-align: center;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
 }
-.card p {
-  color: #666;
-  font-size: 0.9rem;
-}
+
 .card h3 {
+  color: #4f6033;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.card p {
+  font-size: 1.4rem;
   color: #556b2f;
-  font-size: 1.8rem;
+  font-weight: bold;
   margin-top: 4px;
+}
+
+/* Pause button */
+.pause-btn {
+  margin-top: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.pause-btn.active {
+  background-color: #9bb56d;
+  color: white;
+}
+
+.pause-btn.paused {
+  background-color: #c94e4e;
+  color: white;
 }

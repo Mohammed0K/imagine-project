@@ -11,7 +11,7 @@ document.getElementById("guideLoginForm").addEventListener("submit", function (e
     localStorage.setItem("guideEmail", email);
 
     // تحويل إلى لوحة التحكم
-    window.location.href = "../guides/dashboard_guides.html";
+    window.location.href = "../dashboard_guides/dashboard_guides.html";
   } else {
     alert("Please enter both email and password.");
   }

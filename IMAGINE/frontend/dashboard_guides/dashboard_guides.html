@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard | IMAGINE</title>
+    <title>Guide Dashboard | IMAGINE</title>
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,7 +14,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-    <link rel="stylesheet" href="dashboard.css" />
+    <!-- Custom -->
+    <link rel="stylesheet" href="dashboard_guides.css" />
   </head>
 
   <body class="bg-[#fffaf3] text-gray-800">
@@ -26,80 +27,129 @@
             <a href="../home/home.html" class="text-2xl font-bold text-[#556b2f]">IMAGINE</a>
           </div>
 
-          <nav class="p-4 space-y-2" id="sidebar">
-            <button class="side-btn active" data-target="section-dashboard">
-              <i class="fa-solid fa-chart-line"></i> Dashboard
+          <nav class="p-4 space-y-2">
+            <button class="side-btn active" data-target="section-overview">
+              <i class="fa-solid fa-chart-line"></i> Overview
             </button>
-            <button class="side-btn" data-target="section-guides">
-              <i class="fa-solid fa-users"></i> Guides
+            <button class="side-btn" data-target="section-requests">
+              <i class="fa-solid fa-clipboard-list"></i> Requests
             </button>
-            <button class="side-btn" data-target="section-places">
-              <i class="fa-solid fa-map-location-dot"></i> Places
-            </button>
-            <button class="side-btn" data-target="section-bookings">
-              <i class="fa-solid fa-book"></i> Bookings
-            </button>
-            <button class="side-btn" data-target="section-reviews">
-              <i class="fa-solid fa-star"></i> Reviews
+            <button class="side-btn" data-target="section-profile">
+              <i class="fa-solid fa-user"></i> Profile
             </button>
           </nav>
         </div>
 
         <div class="p-4 border-t border-gray-100">
-          <a href="../login/login.html" class="flex items-center gap-3 text-red-600 hover:text-red-700">
+          <button id="logoutBtn" class="flex items-center gap-3 text-red-600 hover:text-red-700">
             <i class="fa-solid fa-right-from-bracket"></i>
             Logout
-          </a>
+          </button>
         </div>
       </aside>
 
-      <!-- ===== Main Content ===== -->
+      <!-- ===== Main ===== -->
       <main class="flex-1 p-6 overflow-y-auto">
         <header class="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
-          <h1 class="text-2xl font-semibold text-[#556b2f]" id="section-title">Dashboard</h1>
-          <div class="flex items-center gap-4">
-            <input
-              type="text"
-              placeholder="Search..."
-              class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#556b2f33]"
-            />
-            <img src="../assets/images/abdullah.jpg" class="w-10 h-10 rounded-full border" alt="user" />
+          <h1 class="text-2xl font-semibold text-[#556b2f]" id="section-title">Overview</h1>
+          <div class="flex items-center gap-3">
+            <p class="font-medium text-gray-600" id="guide-name"></p>
+            <i class="fa-solid fa-person-hiking text-[#556b2f] text-xl"></i>
           </div>
         </header>
 
-        <!-- ===== Sections (Dashboard / Guides / Places / Bookings / Reviews) ===== -->
-        <section id="section-dashboard" class="dashboard-section">
-          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Overview</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card"><p>Total Guides</p><h3>32</h3></div>
-            <div class="card"><p>Total Places</p><h3>128</h3></div>
-            <div class="card"><p>Bookings</p><h3>480</h3></div>
-            <div class="card"><p>Reviews</p><h3>91</h3></div>
+        <!-- ===== Overview ===== -->
+        <section id="section-overview" class="dashboard-section">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="card">
+              <i class="fa-solid fa-clipboard-list text-2xl text-[#556b2f]"></i>
+              <h3>Active Requests</h3>
+              <p id="active-count">0</p>
+            </div>
+
+            <div class="card">
+              <i class="fa-solid fa-star text-2xl text-[#556b2f]"></i>
+              <h3>Average Rating</h3>
+              <p>4.8</p>
+            </div>
+
+            <div class="card">
+              <i class="fa-solid fa-pause-circle text-2xl text-[#556b2f]"></i>
+              <h3>Status</h3>
+              <button id="pauseBtn" class="pause-btn active">Receiving Requests</button>
+            </div>
           </div>
         </section>
 
-        <section id="section-guides" class="hidden">
-          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Guides Management</h2>
-          <p>Here you can manage tourist guides (add, edit, delete).</p>
+        <!-- ===== Requests ===== -->
+        <section id="section-requests" class="hidden">
+          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Current Requests</h2>
+          <div id="requests-list" class="space-y-3">
+            <p class="text-gray-500">No active requests yet.</p>
+          </div>
         </section>
 
-        <section id="section-places" class="hidden">
-          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Places Management</h2>
-          <p>Here you can add or update tourist destinations.</p>
-        </section>
-
-        <section id="section-bookings" class="hidden">
-          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Bookings</h2>
-          <p>All recent and upcoming bookings will appear here.</p>
-        </section>
-
-        <section id="section-reviews" class="hidden">
-          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Reviews</h2>
-          <p>Tourist reviews and ratings overview.</p>
-        </section>
-      </main>
+        <!-- ===== Profile ===== -->
+<section id="section-profile" class="hidden">
+  <h2 class="text-xl font-semibold text-[#556b2f] mb-4">My Profile</h2>
+  
+  <form id="profileForm" class="space-y-4 max-w-md">
+    <div>
+      <label class="block text-[#4f6033] font-medium mb-1">Full Name</label>
+      <input
+        type="text"
+        id="profile-name"
+        class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-[#7a9163]"
+      />
     </div>
 
-    <script src="dashboard.js"></script>
+    <div>
+      <label class="block text-[#4f6033] font-medium mb-1">Email</label>
+      <input
+        type="email"
+        id="profile-email"
+        class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-[#7a9163]"
+      />
+    </div>
+
+    <div>
+      <label class="block text-[#4f6033] font-medium mb-1">Age</label>
+      <input
+        type="number"
+        id="profile-age"
+        class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-[#7a9163]"
+      />
+    </div>
+
+    <div>
+      <label class="block text-[#4f6033] font-medium mb-1">Tourism License Number</label>
+      <input
+        type="text"
+        id="profile-license"
+        class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-[#7a9163]"
+      />
+    </div>
+
+    <div class="flex gap-3 pt-4">
+      <button
+        type="submit"
+        class="bg-[#7a9163] hover:bg-[#6b8057] text-white font-semibold py-2 px-5 rounded-lg transition"
+      >
+        Save Changes
+      </button>
+
+      <button
+        type="button"
+        id="deleteAccountBtn"
+        class="bg-[#b84747] hover:bg-[#9e3c3c] text-white font-semibold py-2 px-5 rounded-lg transition"
+      >
+        Delete Account
+      </button>
+    </div>
+  </form>
+</section>
+</main>
+
+    <script src="dashboard_guides.js"></script>
   </body>
 </html>
