@@ -1,23 +1,24 @@
-/* ===== Navbar (مشترك لجميع الصفحات) ===== */
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(240, 242, 238, 0.85);
+  background: rgba(240, 242, 238, 0.85); /* رمادي فاتح مائل للأخضر */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(85, 107, 47, 0.15);
+  border-bottom: 1px solid rgba(85, 107, 47, 0.15); /* خفيف بلون زيتوني */
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+
 .navbar .container {
   width: 100%;
-  padding: 16px 70px;
+  padding: 16px 70px; /* زودنا المسافات الجانبية */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 
 .logo {
   color: #556b2f;
@@ -31,7 +32,7 @@
 
 nav ul {
   display: flex;
-  gap: 24px;
+  gap: 22px;
   list-style: none;
 }
 
