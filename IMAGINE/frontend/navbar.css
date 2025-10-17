@@ -1,0 +1,59 @@
+/* ===== Navbar (مشترك لجميع الصفحات) ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(240, 242, 238, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(85, 107, 47, 0.15);
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar .container {
+  width: 100%;
+  padding: 16px 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #556b2f;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.logo span {
+  color: #b8bfa5;
+}
+
+nav ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a.active,
+nav a:hover {
+  color: #7a9163;
+}
+
+.login-btn {
+  background: #7a9163;
+  color: white !important;
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+.spacer {
+  height: 80px;
+}
