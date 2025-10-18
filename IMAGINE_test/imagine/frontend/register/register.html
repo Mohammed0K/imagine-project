@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | IMAGINE</title>
+    <link rel="stylesheet" href="register.css" />
+  </head>
+  <body>
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="home.html" class="logo">IMAGINE</a>
+        <ul class="nav-links">
+          <li><a href="../home/home.html">Home</a></li>
+          <li><a href="../contact/contact.html">Contact</a></li>
+          <li><a class="active" href="register.html">Register</a></li>
+          <li><a href="../login/login.html" class="login-btn">Login</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ===== Register Section ===== -->
+    <main class="register-container">
+      <div class="register-card">
+        <h1>Create Account</h1>
+        <p class="subtitle">Join IMAGINE to discover Saudi Arabia with local guides</p>
+
+        <form id="registerForm">
+          <label>Full Name</label>
+          <input type="text" id="name" placeholder="John Doe" required />
+
+          <label>Email</label>
+          <input type="email" id="email" placeholder="you@example.com" required />
+
+          <label>Password</label>
+          <input type="password" id="password" placeholder="••••••••" required />
+
+          <label>Confirm Password</label>
+          <input type="password" id="confirm" placeholder="••••••••" required />
+
+          <button type="submit" class="btn">Register</button>
+
+          <p class="switch">
+            Already have an account?
+            <a href="../login/login.html" class="link">Sign in</a>
+          </p>
+        </form>
+      </div>
+    </main>
+
+    <script src="register.js"></script>
+  </body>
+</html>

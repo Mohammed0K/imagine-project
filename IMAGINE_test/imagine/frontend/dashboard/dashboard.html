@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | IMAGINE</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+
+  <body class="bg-[#fffaf3] text-gray-800">
+    <div class="flex h-screen">
+      <!-- ===== Sidebar ===== -->
+      <aside class="w-64 bg-white border-r border-gray-200 flex flex-col justify-between">
+        <div>
+          <div class="p-6 border-b border-gray-100">
+            <a href="../home/home.html" class="text-2xl font-bold text-[#556b2f]">IMAGINE</a>
+          </div>
+
+          <nav class="p-4 space-y-2" id="sidebar">
+            <button class="side-btn active" data-target="section-dashboard">
+              <i class="fa-solid fa-chart-line"></i> Dashboard
+            </button>
+            <button class="side-btn" data-target="section-guides">
+              <i class="fa-solid fa-users"></i> Guides
+            </button>
+            <button class="side-btn" data-target="section-places">
+              <i class="fa-solid fa-map-location-dot"></i> Places
+            </button>
+            <button class="side-btn" data-target="section-bookings">
+              <i class="fa-solid fa-book"></i> Bookings
+            </button>
+            <button class="side-btn" data-target="section-reviews">
+              <i class="fa-solid fa-star"></i> Reviews
+            </button>
+          </nav>
+        </div>
+
+        <div class="p-4 border-t border-gray-100">
+          <a href="../login/login.html" class="flex items-center gap-3 text-red-600 hover:text-red-700">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+          </a>
+        </div>
+      </aside>
+
+      <!-- ===== Main Content ===== -->
+      <main class="flex-1 p-6 overflow-y-auto">
+        <header class="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
+          <h1 class="text-2xl font-semibold text-[#556b2f]" id="section-title">Dashboard</h1>
+          <div class="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Search..."
+              class="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#556b2f33]"
+            />
+            <img src="../assets/images/abdullah.jpg" class="w-10 h-10 rounded-full border" alt="user" />
+          </div>
+        </header>
+
+        <!-- ===== Sections (Dashboard / Guides / Places / Bookings / Reviews) ===== -->
+        <section id="section-dashboard" class="dashboard-section">
+          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Overview</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="card"><p>Total Guides</p><h3>32</h3></div>
+            <div class="card"><p>Total Places</p><h3>128</h3></div>
+            <div class="card"><p>Bookings</p><h3>480</h3></div>
+            <div class="card"><p>Reviews</p><h3>91</h3></div>
+          </div>
+        </section>
+
+        <section id="section-guides" class="hidden">
+          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Guides Management</h2>
+          <p>Here you can manage tourist guides (add, edit, delete).</p>
+        </section>
+
+        <section id="section-places" class="hidden">
+          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Places Management</h2>
+          <p>Here you can add or update tourist destinations.</p>
+        </section>
+
+        <section id="section-bookings" class="hidden">
+          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Bookings</h2>
+          <p>All recent and upcoming bookings will appear here.</p>
+        </section>
+
+        <section id="section-reviews" class="hidden">
+          <h2 class="text-xl font-semibold text-[#556b2f] mb-4">Reviews</h2>
+          <p>Tourist reviews and ratings overview.</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+  </body>
+</html>

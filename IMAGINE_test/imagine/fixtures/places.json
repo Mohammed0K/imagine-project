@@ -1,0 +1,102 @@
+[
+  {
+    "model": "api.place",
+    "pk": 1,
+    "fields": {
+      "name": "Diriyah",
+      "region": "Riyadh",
+      "description": "The birthplace of the Saudi Kingdom, rich with heritage and architecture",
+      "image": "assets/diriyah.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 2,
+    "fields": {
+      "name": "AlUla",
+      "region": "Madinah",
+      "description": "Ancient tombs and sandstone mountains form one of the most iconic Saudi destinations",
+      "image": "assets/alula.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 3,
+    "fields": {
+      "name": "Rijal Almaa",
+      "region": "Asir",
+      "description": "Embark on a timeless journey to Rijal Heritage Village, a gem just 45 km from Abha. This stunning village",
+      "image": "assets/asir.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 4,
+    "fields": {
+      "name": "Jeddah Corniche",
+      "region": "Makkah",
+      "description": "Modern city by the Red Sea with art, food, and beautiful seaside views",
+      "image": "assets/Jeddah Corniche.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 5,
+    "fields": {
+      "name": "Al Hamda Waterfall",
+      "region": "Al Baha",
+      "description": "Outdoors Al Hamda Waterfall is one of the most beautiful natural waterfalls in Al Baha",
+      "image": "assets/al-hamda-waterfall.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 6,
+    "fields": {
+      "name": "Nafud Al-Thuwairat",
+      "region": "Az Zulfi",
+      "description": "Nafud Al-Thuwairat is an extensive desert dune field bordering the city of Al Zulfi in the Riyadh Region",
+      "image": "assets/Al-Thuwairat.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 7,
+    "fields": {
+      "name": "red-see",
+      "region": "Jeddah",
+      "description": "The Marine Cave of the Red Sea is one of the most stunning and rare underwater formations along Saudi Arabia",
+      "image": "assets/red-see.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 8,
+    "fields": {
+      "name": "KAFD",
+      "region": "Riyadh",
+      "description": "KAFD is an iconic business and lifestyle destination with state-of-the-art physical and digital infrastructure",
+      "image": "assets/kafd.jpeg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 9,
+    "fields": {
+      "name": "Al Asfar Lake",
+      "region": "Al Ahsa",
+      "description": "Tucked among the golden dunes of Al Ahsa, Al Asfar Lake is one of the largest natural water bodies in the Gulf",
+      "image": "assets/Al-Asfar-Lake.jpg"
+    }
+  },
+  {
+    "model": "api.place",
+    "pk": 10,
+    "fields": {
+      "name": "Maqsourat Al-Suwailim",
+      "region": "Qassim",
+      "description": "Maqsourat Al-Swailim is one of the most iconic heritage landmarks, blending the charm of the past with modern refinement",
+      "image": "assets/maqsourat-al-sewailim.jpg"
+    }
+  }
+]

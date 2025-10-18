@@ -1,0 +1,14 @@
+[
+  {
+    "model": "api.review",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "guide": 1,
+      "place": 1,
+      "rating": 5,
+      "comment": "Amazing tour experience!",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  }
+]
