@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Login | IMAGINE</title>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="login_guides.css" />
+</head>
+<body>
+  <section class="login-section">
+    <div class="container">
+      <!-- ✅ Unified Navbar -->
+<div id="navbar"></div>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="../supabase/supabaseClient.js"></script>
+<script src="../shared/navbar.js"></script>
+
+      <h2><i class="fa-solid fa-person-hiking"></i> Guide Login</h2>
+      <p class="subtitle">Welcome back! Manage your bookings and profile.</p>
+
+      <form id="guideLoginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <p class="note">
+        Not registered yet? 
+        <a href="../register_guides/register_guides.html">Become a Guide</a>
+      </p>
+    </div>
+  </section>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="../supabase/supabaseClient.js"></script>
+
+  <script src="login_guides.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+
+/* ===== General ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #fffaf3;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 40px;
+}
+
+.logo {
+  color: #556b2f;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #556b2f;
+}
+
+.nav-links a.active {
+  color: #556b2f;
+  font-weight: 600;
+}
+
+/* ===== Guides Section ===== */
+.guides-section {
+  padding: 120px 40px 60px;
+  text-align: center;
+}
+
+.guides-section h1 {
+  color: #556b2f;
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/* ===== Guides Grid ===== */
+.guides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* ===== Guide Card ===== */
+.guide-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.guide-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.guide-card img {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 15px;
+ border: 1px solid #ddd;
+}
+
+.guide-card h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.guide-card .region {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.guide-card .languages {
+  color: #556b2f;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.guide-card .rating {
+  color: #f4b400;
+  margin-bottom: 10px;
+}
+
+.guide-card p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.guide-card .reviews {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #666;
+}

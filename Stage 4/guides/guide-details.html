@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guide Details | IMAGINE</title>
+  <link rel="stylesheet" href="../shared/user.css">
+</head>
+
+<body>
+
+<div class="user-layout">
+
+  <!-- ✅ Unified Navbar -->
+<div id="navbar"></div>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="../supabase/supabaseClient.js"></script>
+<script src="../shared/navbar.js"></script>
+
+
+  <!-- Left side intentionally empty (no sidebar for guests) -->
+  <aside></aside>
+
+  <main class="card" style="padding:24px">
+
+    <div id="guideSection" class="stack">
+      <img id="guideImage" style="width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:var(--shadow)" />
+
+      <div class="h1" id="guideName">Guide Name</div>
+      <div class="sub" id="guideCity">City</div>
+      <div id="guideBio">Bio goes here...</div>
+      <div id="guideRating" class="sub" style="color:var(--olive-2)">⭐ 0.0</div>
+    </div>
+
+    <hr class="mt-4">
+
+    <div class="stack mt-4">
+      <div class="h1" style="font-size:1.4rem">Book This Guide</div>
+
+      <label class="label">Booking Date</label>
+      <input type="date" id="bookDate" class="input" required>
+
+      <label class="label">Number of guests</label>
+      <input type="number" id="guests" class="input" min="1" max="20" value="1">
+
+      <button id="bookNowBtn" class="btn btn-primary mt-3">Book Now</button>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="../supabaseClient.js"></script>
+<script src="./guide-details.js"></script>
+</body>
+</html>

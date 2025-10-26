@@ -1,0 +1,77 @@
+/* ====== IMAGINE User Area (based on home.css palette) ====== */
+:root{
+  --cream:#fffaf3;       /* background */
+  --olive:#556b2f;       /* headings / links */
+  --olive-2:#4f6033;     /* darker olive */
+  --lavender:#d0b1f1;    /* primary accent (buttons) */
+  --text:#333;
+  --muted:#666;
+  --border:#ddd;
+  --card:#ffffff;
+  --shadow:0 3px 10px rgba(5,5,5,0.12);
+  --radius:14px;
+}
+
+*{box-sizing:border-box;font-family:"Poppins",sans-serif;margin:0;padding:0}
+body{background:var(--cream);color:var(--text);scroll-behavior:smooth}
+
+/* Layout */
+.user-layout{display:grid;grid-template-columns:280px 1fr;gap:24px;max-width:1200px;margin:90px auto 40px;padding:0 24px}
+@media (max-width: 960px){.user-layout{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* Sidebar */
+.sidebar{background:var(--cream);border:1px solid var(--border);border-radius:var(--radius);padding:20px;height:max-content;position:sticky;top:90px}
+.sidebar .avatar-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:18px}
+.avatar{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:var(--shadow);background:#f3f3f3}
+.username{color:var(--olive-2);font-weight:700}
+.useremail{color:var(--muted);font-size:.9rem}
+
+.navlist{list-style:none;margin-top:10px}
+.navlist li{margin:4px 0}
+.navlist a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--text);border:1px solid transparent}
+.navlist a.active,.navlist a:hover{background:#fff;border-color:var(--border);color:var(--olive)}
+
+/* Headings */
+.h1{font-size:1.8rem;color:var(--olive-2);margin-bottom:14px}
+.sub{color:var(--muted);margin-bottom:18px}
+
+/* Forms */
+.form{display:grid;gap:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width: 720px){.row{grid-template-columns:1fr}}
+.label{font-weight:600;color:var(--olive)}
+.input, .select, .textarea{
+  width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#fff
+}
+.textarea{min-height:110px;resize:vertical}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:.2s;font-weight:600}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--lavender);color:#fff}
+.btn-secondary{background:var(--cream);border-color:var(--border);color:var(--text)}
+.btn-danger{background:#ffefef;border-color:#f5caca;color:#b30000}
+.btn-ghost{background:transparent;color:var(--olive);border-color:var(--border)}
+
+/* Table */
+.table{width:100%;border-collapse:separate;border-spacing:0 10px}
+.table thead th{font-weight:700;color:var(--olive);font-size:.95rem;text-align:left;padding:6px 10px}
+.table tbody tr{background:#fff}
+.table td{padding:12px 10px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.table tr{box-shadow:var(--shadow);border-radius:12px}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:.85rem;border:1px solid var(--border);background:#fff}
+.badge.ok{color:#1a7f37;border-color:#b6e2c5;background:#f1fff5}
+.badge.pending{color:#8a6d00;border-color:#ffe08a;background:#fff8d6}
+.badge.cancel{color:#9b1c1c;border-color:#f5c4c4;background:#ffeeee}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:10000}
+.modal.show{display:flex}
+.modal .box{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);width:min(560px,94%);padding:18px}
+.modal .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+
+/* Utility */
+.stack{display:flex;flex-direction:column;gap:12px}
+.rowc{display:flex;align-items:center;gap:12px}
+.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:18px}

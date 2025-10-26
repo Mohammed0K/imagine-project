@@ -1,0 +1,37 @@
+/* امتداد لتنسيقات user.css */
+
+.content-card {
+  padding: 20px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.table .act-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+.table .act-btn:hover { background: var(--cream); }
+
+.rating-select { width: 100%; }
+
+.empty-state {
+  text-align: center;
+  padding: 24px 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}

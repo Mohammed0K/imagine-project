@@ -1,0 +1,151 @@
+/* ====== Navbar Unified Style (Final Fixed Version) ====== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px; /* ارتفاع موحد */
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+/* حاوية داخلية */
+.navbar .container {
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+}
+
+/* ===== Logo ===== */
+.logo {
+  color: #556b2f;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.logo span {
+  color: #b8bfa5;
+}
+
+/* ===== Nav Links ===== */
+.nav-links {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+
+.nav-links a {
+  position: relative;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+/* 💜 Hover تأثير خزامي */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background-color: #b57edc;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #b57edc;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* 💜 Active Link */
+.nav-links a.active {
+  color: #b57edc;
+  font-weight: 600;
+}
+
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* ===== Auth Section ===== */
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Avatar */
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #7a9163;
+  transition: 0.3s;
+}
+
+.avatar:hover {
+  transform: scale(1.1);
+}
+
+.hidden {
+  display: none;
+}
+
+/* ===== Login / Logout Buttons ===== */
+.btn-login,
+.btn-logout {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 transparent;
+}
+
+/* زر Login */
+.btn-login {
+  background: #7a9163;
+  color: white;
+}
+
+.btn-login:hover {
+  background: #556b2f;
+  box-shadow: 0 0 8px #b57edc7a; /* توهج خزامي */
+  transform: scale(1.03);
+}
+
+/* زر Logout */
+.btn-logout {
+  background: #e05b5b;
+  color: white;
+}
+
+.btn-logout:hover {
+  background: #c84848;
+  box-shadow: 0 0 8px #b57edc7a;
+  transform: scale(1.03);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+}
+
+/* ===== Page Body Offset (عشان ما يغطي المحتوى) ===== */
+.has-navbar {
+  padding-top: 64px; /* 👈 يترك فراغ تحت النافبار */
+}
