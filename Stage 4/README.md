@@ -1,7 +1,5 @@
-# How run server frontend
 
-# you can change the port 8000 to 5555
-python3 -m http.server 8000 
+Project API:
 
-# to open the imaagine you have to past the url after run the server
-http://localhost:8000/home/home.html
+Project URL: https://rvrjfzetjguhxoizuchx.supabase.co
+API Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2cmpmemV0amd1aHhvaXp1Y2h4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExNTMyMzUsImV4cCI6MjA3NjcyOTIzNX0.hO4o3AHLZ-mX3ZCmIOQj5dChWW_Is_dAYp9csmbS9XI

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Details | Imagine</title>
+
+  <!-- Shared navbar styles -->
+  <link rel="stylesheet" href="../shared/navbar.css" />
+  <!-- Page-only styles -->
+  <link rel="stylesheet" href="../guides/guide-details.css" />
+</head>
+
+<body>
+  <!-- Navbar (loaded via navbar.js) -->
+  <div id="navbar"></div>
+
+  <!-- Page content (use page-container instead of container to avoid affecting navbar) -->
+  <div class="page-container">
+    <section id="guide-info" class="info-card"></section>
+    <section id="place-info" class="info-card"></section>
+
+    <section id="booking-section" class="booking-card">
+      <h2>Book This Guide</h2>
+      <form id="bookingForm" class="booking-form">
+        <div class="form-group">
+          <label for="numGuests">Number of Guests</label>
+          <input type="number" id="numGuests" min="1" max="15" value="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="startDate">Choose a Date</label>
+          <input type="date" id="startDate" required />
+        </div>
+
+        <button type="submit" id="bookBtn" class="book-btn">Book Now</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <h2>✅ Request Sent!</h2>
+      <p>Your booking request has been sent to the guide.<br>
+      You’ll be notified once it’s approved.</p>
+      <button id="goToBookingsBtn">Go to My Bookings</button>
+    </div>
+  </div>
+
+  
+
+  <script src="../shared/navbar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase/supabaseClient.js"></script>
+  <script src="guide-details.js"></script>
+
+   <!-- ⚓ Footer -->
+  <footer class="footer">
+    <p>© 2025 Imagine Project</p>
+  </footer>
+  
+</body>
+</html>

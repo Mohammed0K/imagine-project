@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guide Dashboard | IMAGINE</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../shared/navbar.css" />
+    <link rel="stylesheet" href="dashboard_guides.css" />
+  </head>
+
+  <body class="bg-[#fffaf3] text-gray-800">
+    <header class="navbar">
+      <div id="navbar"></div>
+      <script src="../shared/navbar.js"></script>
+    </header>
+
+    <main class="flex">
+      <aside class="w-64 h-screen bg-[#f0f3ec] border-r border-gray-300 p-5 flex flex-col">
+        <h1 class="text-2xl font-bold text-[#556b2f] mb-6">Guide Panel</h1>
+        <nav class="flex flex-col gap-3">
+          <button class="side-btn active" data-target="section-overview">
+            <i class="fa-solid fa-chart-line mr-2"></i> Overview
+          </button>
+          <button class="side-btn" data-target="section-profile">
+            <i class="fa-solid fa-user mr-2"></i> Profile
+          </button>
+          <button class="side-btn" data-target="section-requests">
+            <i class="fa-solid fa-envelope mr-2"></i> Booking Requests
+          </button>
+          <button class="side-btn" data-target="section-approved">
+            <i class="fa-solid fa-check-circle mr-2"></i> Approved Bookings
+          </button>
+          <button class="side-btn" data-target="section-completed">
+            <i class="fa-solid fa-list-check mr-2"></i> Completed Trips
+          </button>
+          <button id="logoutBtn" class="mt-auto text-red-600 font-semibold">
+            <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+          </button>
+        </nav>
+      </aside>
+
+      <section class="flex-1 p-8 overflow-y-auto relative">
+        <div class="flex justify-between items-center mb-6">
+          <h2 id="section-title" class="text-3xl font-bold text-[#556b2f]">Overview</h2>
+          <button id="statusToggleBtn" class="pause-btn paused" onclick="toggleStatus()">🔴 Offline</button>
+        </div>
+
+        <!-- Overview -->
+        <section id="section-overview">
+          <div id="overview-cards"></div>
+        </section>
+
+        <!-- Profile -->
+        <section id="section-profile" style="display:none">
+          <form id="profileForm" class="bg-white shadow p-6 rounded-lg space-y-4 max-w-2xl">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-semibold">Full Name</label>
+                <input id="fullName" type="text" class="border rounded p-2 w-full" placeholder="Your name" required />
+              </div>
+              <div>
+                <label class="block font-semibold">Age</label>
+                <input id="age" type="number" class="border rounded p-2 w-full" min="18" max="80" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold">City</label>
+              <select id="city" class="border rounded p-2 w-full">
+                <option value="">Select your city</option>
+                <option value="Riyadh">Riyadh</option>
+                <option value="Jeddah">Jeddah</option>
+                <option value="AlUla">AlUla</option>
+                <option value="Dammam">Dammam</option>
+                <option value="Abha">Abha</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-semibold">License Number</label>
+              <input id="licenseNumber" type="text" class="border rounded p-2 w-full" />
+            </div>
+
+            <div>
+              <label class="block font-semibold">License File</label>
+              <input id="licenseFile" type="file" accept="image/*,.pdf" />
+            </div>
+
+            <div>
+              <label class="block font-semibold">Profile Picture</label>
+              <input id="avatarFile" type="file" accept="image/*" />
+            </div>
+
+            <div>
+              <label class="block font-semibold">Bio</label>
+              <textarea id="bio" rows="3" class="border rounded p-2 w-full"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-2">Languages</label>
+              <div id="languagesContainer" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div>
+              <label class="block font-semibold mb-2">Regions You Cover</label>
+              <div id="regionsContainer" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <button type="submit" class="bg-[#7a9163] text-white px-6 py-2 rounded hover:bg-[#556b2f]">
+              Save Changes
+            </button>
+          </form>
+        </section>
+
+        <!-- Requests -->
+        <section id="section-requests" style="display:none">
+          <h3 class="text-2xl font-semibold mb-4 text-[#556b2f]">Booking Requests</h3>
+          <div id="requestsList" class="space-y-3"></div>
+        </section>
+
+        <!-- Approved -->
+        <section id="section-approved" style="display:none">
+          <h2 class="text-xl font-bold mb-4">Approved Bookings</h2>
+          <div id="approvedList"></div>
+        </section>
+
+        <!-- Completed -->
+        <section id="section-completed" style="display:none">
+          <h2 class="text-2xl font-bold mb-6 text-center text-[#556b2f]">Completed Trips</h2>
+          <div class="table-wrapper">
+            <table id="completedTripsTable" class="completed-table">
+              <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>City</th>
+                  <th>Date</th>
+                  <th>Tourist</th>
+                  <th>Guests</th>
+                  <th>Rating</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody id="completedTripsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+    <div id="commentModal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Tourist Comment</h3>
+        <p id="commentText"></p>
+        <button onclick="closeCommentModal()">Close</button>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="../supabase/supabaseClient.js"></script>
+    <script src="dashboard_guides.js"></script>
+  </body>
+</html>

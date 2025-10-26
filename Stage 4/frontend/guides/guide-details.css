@@ -1,0 +1,199 @@
+/* ======== Base Layout ======== */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  background: linear-gradient(to bottom, #fffdf8, #fffaf3);
+  min-height: 100vh;
+}
+
+/* ======== Page Container (scoped to this page only) ======== */
+.page-container {
+  max-width: 1100px;
+  /* space below fixed navbar to match other pages */
+  margin: 120px auto 60px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ======== Info Cards ======== */
+.info-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 30px;
+  transition: all 0.25s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+}
+
+.info-card img {
+  width: 190px;
+  height: 190px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-right: 25px;
+}
+
+.info-card h2 {
+  margin: 0 0 8px;
+  color: #4f6033;
+}
+
+.info-card p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* ======== Booking Section ======== */
+.booking-card {
+  background: #fdfcf8;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 900px;
+}
+
+.booking-card h2 {
+  color: #4f6033;
+  margin-bottom: 18px;
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 400px;
+}
+
+.booking-form label {
+  font-weight: 600;
+  color: #4f6033;
+}
+
+.booking-form input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1rem;
+  outline: none;
+  background-color: #fff;
+}
+
+.booking-form input:focus {
+  border-color: #7a9163;
+}
+
+.book-btn {
+  background: #7a9163;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.book-btn:hover {
+  background: #6a8155;
+  transform: translateY(-2px);
+}
+
+/* ===== CTA ===== */
+.cta {
+  background: linear-gradient(135deg, #efe5ff, #fff8e7);
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.cta h2 {
+  color: #4f6033;
+  margin-bottom: 10px;
+}
+
+.cta p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* ===== Footer ===== */
+.footer {
+  background: #4f6033;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  font-size: 0.9rem;
+}
+
+/* ======== Modal ======== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+  color: #4f6033;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  color: #555;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.modal-content button {
+  background: #7a9163;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-content button:hover {
+  background: #6a8155;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

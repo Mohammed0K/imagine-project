@@ -1,0 +1,137 @@
+/* ===== General ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #fffaf3;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+/* ===== Login Section ===== */
+.login-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 180px);
+  background: #fffaf3;
+}
+
+.login-box {
+  background: white;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-box h2 {
+  color: #556b2f;
+  margin-bottom: 25px;
+}
+
+.login-box label {
+  display: block;
+  text-align: left;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s;
+}
+
+.login-box input:focus {
+  border-color: #7a9163;
+  box-shadow: 0 0 0 2px rgba(122, 145, 99, 0.2);
+}
+
+/* form options */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.forgot {
+  color: #7a9163;
+  text-decoration: none;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+/* button */
+.btn.primary {
+  width: 100%;
+  background: linear-gradient(90deg, #9bb56d, #7a9163);
+  color: white;
+  border: none;
+  padding: 10px 0;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.btn.primary:hover {
+  transform: scale(1.05);
+}
+
+/* signup text */
+.signup-text {
+  margin-top: 15px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.signup-text a {
+  color: #7a9163;
+  text-decoration: none;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+/* ===== CTA ===== */
+.cta {
+  background: linear-gradient(135deg, #efe5ff, #fff8e7);
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.cta h2 {
+  color: #4f6033;
+  margin-bottom: 10px;
+}
+
+.cta p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* ===== Footer ===== */
+.footer {
+  background: #4f6033;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,480 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #fffaf3;
+}
+
+/* ========== Sidebar Buttons ========== */
+.side-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 500;
+  color: #333;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.side-btn i {
+  color: #556b2f;
+}
+
+.side-btn:hover {
+  background: #f3f0e6;
+  color: #556b2f;
+}
+
+.side-btn.active {
+  background: #f3f0e6;
+  color: #556b2f;
+  font-weight: 600;
+}
+
+/* ========== Status Toggle Button ========== */
+.pause-btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.pause-btn.active {
+  background-color: #7a9163;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.pause-btn.paused {
+  background-color: #c94e4e;
+  color: white;
+}
+
+/* ========== Cards (Overview + Stats) ========== */
+.card {
+  background: #ffffff;
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  color: #4f6033;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.card p {
+  font-size: 1.4rem;
+  color: #556b2f;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* ========== Stats Box (Average Rating / Regions) ========== */
+.stats-box {
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stats-box h3 {
+  color: #4f6033;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.count-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #7a9163;
+}
+
+/* ========== Review Cards ========== */
+#overview-cards .border {
+  transition: transform 0.2s ease;
+}
+
+#overview-cards .border:hover {
+  transform: scale(1.01);
+}
+
+/* ========== Profile Form ========== */
+.profile-form {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 30px 40px;
+  max-width: 650px;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-form h2 {
+  color: #556b2f;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-form label {
+  display: block;
+  font-weight: 600;
+  color: #4f6033;
+  margin-bottom: 6px;
+}
+
+.profile-form input,
+.profile-form textarea,
+.profile-form select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fffaf3;
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus,
+.profile-form select:focus {
+  border-color: #7a9163;
+  outline: none;
+  box-shadow: 0 0 4px rgba(122, 145, 99, 0.4);
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-success {
+  background: linear-gradient(90deg, #9bb56d, #7a9163);
+  color: white;
+}
+
+.btn-success:hover {
+  transform: scale(1.05);
+}
+
+.btn-danger {
+  background: #c55;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #a33;
+  transform: scale(1.05);
+}
+
+/* ========== Booking Requests ========== */
+#requestsList .border {
+  transition: box-shadow 0.2s ease;
+}
+
+#requestsList .border:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== Toast (Future use) ========== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 18px;
+  background: #556b2f;
+  color: #fff;
+  border-radius: 8px;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
+/* ========== Scrollbars & Layout ========== */
+main {
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b7c4a1;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9bb56d;
+}
+
+/* ====== Region Buttons (multi-select tags) ====== */
+.region-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid #7a9163;
+  background: #fff;
+  color: #4f6033;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.region-btn:hover {
+  background: #f3f0e6;
+}
+.region-btn.active {
+  background: #7a9163;
+  color: white;
+  border-color: #7a9163;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== Language Buttons ====== */
+.lang-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid #7a9163;
+  background: #fff;
+  color: #4f6033;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.lang-btn:hover {
+  background: #f3f0e6;
+}
+.lang-btn.active {
+  background: #7a9163;
+  color: white;
+  border-color: #7a9163;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== Completed Trips & Approved Bookings Grid Layout ====== */
+#completedTrips,
+#approvedList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  justify-items: center;
+  align-items: start;
+  padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto; /* ✅ يوسّط الشبكة في منتصف الصفحة */
+}
+
+/* كل بطاقة */
+#completedTrips .trip-card,
+#approvedList .trip-card {
+  width: 100%;
+  max-width: 320px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#completedTrips .trip-card:hover,
+#approvedList .trip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* العنوان والتاريخ */
+#completedTrips .trip-card h3 {
+  font-size: 1.1rem;
+  color: #556b2f;
+  font-weight: 600;
+}
+
+#completedTrips .trip-card span.date {
+  font-size: 0.85rem;
+  color: #777;
+  margin-left: 8px;
+}
+
+/* محتوى التفاصيل */
+#completedTrips .trip-card p {
+  font-size: 0.9rem;
+  color: #444;
+  margin: 4px 0;
+}
+
+
+/* ===== Toast Notification ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #7a9163;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+.toast.success {
+  background: #7a9163;
+}
+.toast.error {
+  background: #c94e4e;
+}
+.toast:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== Completed Trips Table ===== */
+.table-wrapper {
+  overflow-x: auto;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.completed-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.completed-table thead {
+  background-color: #7a9163;
+  color: #fff;
+}
+.completed-table th,
+.completed-table td {
+  text-align: center;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 0.95rem;
+}
+.completed-table th {
+  font-weight: 600;
+}
+.completed-table tbody tr:hover {
+  background-color: #f7f7f2;
+}
+.completed-table .loading,
+.completed-table .empty {
+  text-align: center;
+  color: #888;
+  font-weight: 500;
+}
+
+/* ===== Loading Spinner ===== */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 0;
+  color: #7a9163;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #b7c4a1;
+  border-top: 3px solid #7a9163;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== Comment Modal ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 24px 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h3 {
+  font-size: 1.3rem;
+  color: #556b2f;
+  margin-bottom: 12px;
+}
+
+.modal-content p {
+  color: #444;
+  margin-bottom: 20px;
+  word-break: break-word;
+}
+
+.modal-content button {
+  background: #7a9163;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-content button:hover {
+  background: #556b2f;
+}
+
+/* Comment Button in Table */
+.comment-btn {
+  background: #f3f0e6;
+  color: #556b2f;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: 1px solid #7a9163;
+  transition: all 0.2s ease;
+}
+.comment-btn:hover {
+  background: #7a9163;
+  color: #fff;
+}

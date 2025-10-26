@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Bookings | IMAGINE</title>
+  <!-- الأساسيات المشتركة -->
+  <link rel="stylesheet" href="../shared/user.css" />
+  <!-- تخصيصات هذه الصفحة -->
+  <link rel="stylesheet" href="./my-bookings.css" />
+</head>
+<body>
+  <!-- ✅ Navbar موحّد -->
+  <div id="navbar"></div>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- ملاحظة: المسار الصحيح لعميل Supabase (مرة واحدة فقط) -->
+  <script src="../supabase/supabaseClient.js"></script>
+  <script src="../shared/navbar.js"></script>
+
+  <div class="user-layout">
+    <!-- ✅ الشريط الجانبي -->
+    <aside class="sidebar card">
+      <div class="avatar-wrap">
+        <img id="avatarSmall" class="avatar" src="../assets/images/default.png" alt="avatar" />
+        <div class="username" id="sbName">—</div>
+        <div class="useremail" id="sbEmail">—</div>
+      </div>
+
+      <ul class="navlist">
+        <li><a href="./profile.html">Profile</a></li>
+        <li><a class="active" href="./my-bookings.html">My Bookings</a></li>
+        <li><a href="./payments.html">Payments</a></li>
+        <li><a href="./security.html">Security</a></li>
+      </ul>
+    </aside>
+
+    <!-- ✅ المحتوى -->
+    <main class="card content-card">
+      <div class="header-actions">
+        <div class="h1">My Bookings</div>
+      </div>
+
+      <div id="tableWrapper" class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Guide</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th width="160">Action</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsList">
+            <!-- يتم التعبئة ديناميكيًا -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ✅ حالة عدم وجود بيانات -->
+      <div id="emptyState" class="empty-state" hidden>
+        <p>No bookings yet.</p>
+        <a class="btn btn-primary" href="../guides/guides.html">Find a guide</a>
+      </div>
+    </main>
+  </div>
+
+  <!-- ✅ نافذة التقييم -->
+  <div id="reviewModal" class="modal">
+    <div class="box">
+      <h3 class="h1" style="font-size:1.2rem;margin-bottom:12px">Rate Guide</h3>
+
+      <label class="label">Rating ⭐</label>
+      <select id="rating" class="select rating-select">
+        <option value="1">⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+      </select>
+
+      <label class="label mt-3">Comment</label>
+      <textarea id="comment" class="textarea" placeholder="Your experience..."></textarea>
+
+      <div class="actions">
+        <button id="saveReviewBtn" class="btn btn-primary">Submit</button>
+        <button type="button" onclick="closeModal()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ سكربت الصفحة -->
+  <script src="./my-bookings.js"></script>
+
+   <!-- ⚓ Footer -->
+  <footer class="footer">
+    <p>© 2025 Imagine Project</p>
+  </footer>
+  
+</body>
+</html>

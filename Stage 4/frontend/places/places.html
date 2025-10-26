@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IMAGINE | Places</title>
+
+    <!-- ✅ Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ✅ Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- ✅ Custom CSS -->
+    <link rel="stylesheet" href="places.css" />
+  </head>
+
+  <body class="bg-[#fffaf3] text-gray-800">
+   
+   
+<!-- 🕌 Navbar -->
+<header class="navbar">
+  <div id="navbar"></div>
+</header>
+<script src="../shared/navbar.js"></script>
+
+
+
+    <!-- 🏜️ Hero Section -->
+    <section
+      class="places-hero relative text-center py-24 bg-cover bg-center"
+      style="background-image:url('../places/assets/kafd.jpeg')"
+    >
+      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="relative z-10 text-white">
+        <h1 class="text-4xl md:text-5xl font-bold">
+          Journey Through <span class="text-[#facc15]">Timeless Beauty</span>
+        </h1>
+        <p class="mt-3 text-lg max-w-2xl mx-auto">
+          Experience the perfect blend of ancient heritage and modern luxury in
+          the heart of Arabia.
+        </p>
+      </div>
+    </section>
+
+    <!-- 📍 Places Section -->
+    <section class="places py-12 px-6">
+      <h2 class="text-3xl font-bold text-center text-[#556b2f]">
+        Top Destinations
+      </h2>
+      <p class="subtitle text-center text-gray-600 mb-8">
+        Explore the hidden gems of Saudi Arabia
+      </p>
+
+      <div
+        id="places-container"
+        class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto"
+      >
+        <!-- JS injects cards here -->
+      </div>
+    </section>
+
+    <!-- ✅ Guides Modal -->
+    <div
+      id="guides-modal"
+      class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-2xl p-6 w-[90%] max-w-4xl relative"
+      >
+        <button
+          id="closeModalBtn"
+          class="absolute top-3 right-4 text-gray-500 hover:text-black text-3xl"
+        >
+          &times;
+        </button>
+        <h2
+          id="modalPlaceTitle"
+          class="text-2xl font-bold text-[#556b2f] mb-6 text-center"
+        >
+          Available Guides
+        </h2>
+
+        <!-- المرشدين يحقنون هنا -->
+        <div
+          id="guides-list"
+          class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-h-[70vh] overflow-y-auto pr-2"
+        ></div>
+      </div>
+    </div>
+
+    <!-- ✅ Styles for Guide Cards -->
+    <style>
+      .guide-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        background: #fffaf3;
+        padding: 16px;
+        transition: all 0.2s ease;
+      }
+      .guide-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .guide-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border: 2px solid #d1d5db;
+      }
+      .guide-name {
+        font-weight: 600;
+        color: #334155;
+        font-size: 1.1rem;
+      }
+      .guide-city {
+        color: #777;
+        font-size: 0.9rem;
+        margin-top: 4px;
+      }
+      .rating {
+        color: #facc15;
+        margin: 6px 0;
+      }
+      .book-btn {
+        background: #7a9163;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 500;
+        margin-top: 8px;
+        transition: 0.2s;
+      }
+      .book-btn:hover {
+        background: #556b2f;
+      }
+    </style>
+
+    <!-- ✨ CTA Section -->
+  <section class="cta">
+    <h2>Ready to Begin Your Saudi Adventure?</h2>
+    <p>Connect with expert guides and start your unforgettable journey today.</p>
+    <a href="../register/register.html" class="btn primary">Join Now</a>
+  </section>
+   
+   <!-- ⚓ Footer -->
+  <footer class="footer">
+    <p>© 2025 Imagine Project</p>
+  </footer>
+
+    <!-- ✅ Scripts -->
+    <!-- ✅ 1. مكتبة Supabase الرسمية -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- ✅ 2. ملف supabaseClient.js -->
+<script src="../supabase/supabaseClient.js"></script>
+    <script src="places.js"></script>
+  </body>
+</html>
