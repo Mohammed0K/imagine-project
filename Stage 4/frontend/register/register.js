@@ -1,4 +1,4 @@
-// ✅ Tourist Registration with Active Session Redirect
+// ✅ Tourist Registration with Instant Login + Safe ENUM + Profile Sync
 console.log("✅ register.js LOADED");
 
 const form = document.getElementById("registerForm");
@@ -16,7 +16,7 @@ form.addEventListener("submit", async (e) => {
   const password = document.getElementById("password").value;
   const confirm = document.getElementById("confirm").value;
 
-  // Validation
+  // ✅ Validations
   if (password !== confirm) {
     alert("❌ Passwords do not match!");
     return;
@@ -27,74 +27,70 @@ form.addEventListener("submit", async (e) => {
   }
 
   submitBtn.disabled = true;
+  console.log("🔄 Registering user...");
 
   try {
-    // Create account
+    // ✅ Signup Request
     const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
         data: {
           name,
-          role: "customer", // keep matching DB role
-        },
-      },
+          // ✅ role will be assigned by DB DEFAULT ENUM (no send!)
+        }
+      }
     });
 
-    submitBtn.disabled = false;
-
     if (error) {
-      console.error("❌ Registration error:", error.message);
+      console.error("❌ Registration Error:", error.message);
       alert("❌ " + error.message);
+      submitBtn.disabled = false;
       return;
     }
 
-    console.log("✅ User registered:", data);
+    const user = data?.user;
+    console.log("✅ User registered:", user);
 
-    // ✅ Sync user info to 'profiles' table after registration
-if (data?.user) {
-  const { user } = data;
+    if (!user) {
+      alert("✅ Account created — please login!");
+      window.location.href = "../login/login.html";
+      return;
+    }
 
-  // نحاول نحدّث السجل لو موجود فعلاً
-  const { error: updateErr } = await supabaseClient
-    .from("profiles")
-    .update({
-      full_name: name || null,
-      email: user.email,
-      role: "customer",
-    })
-    .eq("id", user.id);
-
-  // لو السجل ما كان موجود (جديد كلياً)، ننشئه
-  if (updateErr) {
-    console.warn("⚠️ Could not update profile, inserting instead:", updateErr.message);
-    await supabaseClient.from("profiles").insert({
-      id: user.id,
-      full_name: name || null,
-      email: user.email,
-      role: "customer",
-    });
-  }
-}
-
-
-    // Wait briefly for Supabase to create the session
-    let tries = 0;
+    // ✅ Wait for session (email confirmations OFF ✅)
     let session = null;
-    while (!session && tries < 10) {
+    for (let i = 0; i < 10 && !session; i++) {
       const { data: sessionData } = await supabaseClient.auth.getSession();
       session = sessionData?.session;
       if (!session) await new Promise((r) => setTimeout(r, 300));
-      tries++;
     }
 
-    if (session) {
-      alert("🎉 Welcome to Imagine! You are now logged in.");
-    } else {
-      alert("✅ Account created successfully!");
+    console.log("✅ Session:", session);
+
+    // ✅ Profile Sync (No ENUM role → DB default applies)
+    const { data: existingProfile } = await supabaseClient
+      .from("profiles")
+      .select("id")
+      .eq("id", user.id)
+      .single();
+
+      
+    if (!existingProfile) {
+      console.log("🆕 Creating profile...");
+      const { error: profileErr } = await supabaseClient.from("profiles").insert({
+        id: user.id,
+        full_name: name,
+        email: user.email
+        // ❌ DO NOT send role here → DB DEFAULT ENUM handles it ✅
+      });
+
+      if (profileErr) console.error("⚠️ Profile Insert Failed:", profileErr.message);
     }
 
-    // 🔹 بعد التسجيل (أو الدخول التلقائي بعد التسجيل)
+    alert("🎉 Welcome! Registration Completed ✅");
+
+    // ✅ Redirection Logic
     const redirect = localStorage.getItem("redirectAfterLogin");
     if (redirect) {
       localStorage.removeItem("redirectAfterLogin");
@@ -104,8 +100,9 @@ if (data?.user) {
     }
 
   } catch (err) {
-    console.error("⚠️ Unexpected error:", err);
-    alert("Something went wrong during registration.");
-    submitBtn.disabled = false;
+    console.error("⚠️ Unexpected Error:", err);
+    alert("Something went wrong.");
   }
+
+  submitBtn.disabled = false;
 });

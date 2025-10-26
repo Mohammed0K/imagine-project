@@ -85,20 +85,7 @@ document.getElementById("guideForm").addEventListener("submit", async (e) => {
     return;
   }
 
-  // 🟢 4) إدخال سجل المستخدم في profiles (مع البريد الإلكتروني)
-  const { error: profileErr } = await supabaseClient.from("profiles").insert([
-    {
-      id: guideId,
-      full_name: name,
-      email,
-      role: "guide", // سيتم تعديلها لاحقًا إلى approved عند الموافقة
-      avatar_url: null,
-    },
-  ]);
-
-  if (profileErr) {
-    console.error("❌ فشل إدخال ملف profile:", profileErr.message);
-  }
+  
 
   // 🟢 5) تحديث بيانات metadata في Auth
   const { error: metaErr } = await supabaseClient.auth.updateUser({
