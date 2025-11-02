@@ -1,16 +1,5 @@
 console.log("✅ dashboard_guides.js loaded");
 
-function showToast(message, type = "success") {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.className = `toast ${type}`;
-  toast.classList.remove("hidden");
-
-  setTimeout(() => {
-    toast.classList.add("hidden");
-  }, 5000);
-}
-
 // Comment Modal Functions
 function showCommentModal(comment) {
   const modal = document.getElementById("commentModal");
@@ -24,7 +13,6 @@ function closeCommentModal() {
   document.getElementById("commentModal").classList.add("hidden");
 }
 
-
 // Check Guide Access and Load Initial Data 
 async function checkGuideAccess() {
   const { data: { user } } = await supabaseClient.auth.getUser();
@@ -37,7 +25,7 @@ async function checkGuideAccess() {
     .single();
 
   if (!profile || profile.role !== "guide") {
-    showToast("Access denied!"); // success or "error"
+    showToast("Access denied!");
     return (window.location.href = "../home/home.html");
   }
 
@@ -63,6 +51,10 @@ async function loadGuideProfile(guideId) {
   document.getElementById("age").value = data.age || "";
   document.getElementById("licenseNumber").value = data.license_number || "";
   document.getElementById("bio").value = data.bio || "";
+  // ✅ Phone
+  if (document.getElementById("phone")) {
+    document.getElementById("phone").value = data.phone || "";
+  }
 
   const btn = document.getElementById("statusToggleBtn");
   if (data.receiving_requests) {
@@ -103,7 +95,7 @@ async function toggleStatus() {
     const regionsOK = !rErr && regionsCount > 0;
 
     if (!nameOK || !bioOK || !langsOK || !regionsOK) {
-      showToast("Please complete your profile before going online.", "error"); // success or "error"
+      showToast("Please complete your profile before going online.", "error");
       return;
     }
   }
@@ -148,7 +140,7 @@ async function loadTags(guideId) {
   container.innerHTML = "";
   allTags.forEach((tag) => {
     const btn = document.createElement("button");
-    btn.type = "button"; // prevent form submit
+    btn.type = "button";
     btn.textContent = tag.name;
     btn.dataset.id = String(tag.id);
     btn.className = selectedIds.includes(String(tag.id))
@@ -180,7 +172,7 @@ async function loadLanguages(guideId) {
 
   allLanguages.forEach((lang) => {
     const btn = document.createElement("button");
-    btn.type = "button"; // prevent form submit
+    btn.type = "button";
     btn.textContent = lang;
     btn.dataset.value = lang;
     btn.className = selected.includes(lang)
@@ -191,7 +183,7 @@ async function loadLanguages(guideId) {
   });
 }
 
-// Save Selected Regions and informaions for Guide  
+// Save Selected Regions
 async function saveSelectedRegions(guideId) {
   const selected = Array.from(document.querySelectorAll(".region-btn.active")).map(
     (b) => b.dataset.id
@@ -217,6 +209,7 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
   const age = parseInt(document.getElementById("age").value);
   const license_number = document.getElementById("licenseNumber").value.trim();
   const bio = document.getElementById("bio").value.trim();
+  const phone = (document.getElementById("phone")?.value || "").trim(); // ✅ جديد
 
   const selectedLangs = Array.from(document.querySelectorAll(".lang-btn.active"))
     .map((b) => b.dataset.value);
@@ -259,6 +252,7 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
       avatar_url,
       bio,
       languages: selectedLangs,
+      phone, // ✅ جديد
     })
     .eq("id", user.id);
 
@@ -268,12 +262,10 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
   saveBtn.textContent = originalText;
 
   if (error) {
-    showToast("Failed to update profile!", "error"); // success or "error"
-
+    showToast("Failed to update profile!", "error");
     console.error(error);
   } else {
-    showToast("Profile updated successfully!", "success"); // success or "error"
-
+    showToast("Profile updated successfully!", "success");
   }
 });
 
@@ -314,11 +306,11 @@ async function loadGuideOverview(guideId) {
       <div class="card"><h3>Completed</h3><p>${counts.completed}</p></div>
     </div>
     <div class="stats-box mt-6">
-      <h3>⭐ Average Rating</h3>
+      <h3> Average Rating</h3>
       <p class="count-number">${avg || "—"}</p>
     </div>
     <div class="stats-box mt-6">
-      <h3>🏙️ Regions Covered</h3>
+      <h3> Regions Covered</h3>
       <p class="count-number">${regionCount || 0}</p>
     </div>
   `;
@@ -336,11 +328,12 @@ async function loadRequests(guideId) {
       status,
       start_at,
       num_guests,
-      profiles(full_name),
-      places(title)
+      admin_note,
+      profiles(full_name, phone, email),
+      places(title, city)
     `)
     .eq("guide_id", guideId)
-    .eq("status", "pending") // ✅ نعرض فقط الحجوزات المعلقة
+    .in("status", ["pending", "paused"])
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -357,6 +350,7 @@ async function loadRequests(guideId) {
   container.innerHTML = "";
 
   data.forEach((b) => {
+    const isPaused = b.status === "paused";
     const card = document.createElement("div");
     card.className =
       "border border-gray-300 rounded-lg p-4 bg-white flex justify-between items-center mb-3";
@@ -368,92 +362,116 @@ async function loadRequests(guideId) {
         <p class="text-sm text-gray-600">Place: ${b.places?.title || "—"}</p>
         <p class="text-sm">Guests: ${b.num_guests || 1}</p>
         <p class="text-sm">Date: ${new Date(b.start_at).toLocaleDateString()}</p>
+        <p class="text-sm text-gray-700">Phone: ${b.profiles?.phone || "—"}</p>
+        ${b.admin_note ? `<p class="text-sm text-red-600 font-semibold mt-1">⚠️ Admin Note: ${escapeHtml(b.admin_note)}</p>` : ""}
+        ${isPaused ? `<p class="text-sm text-yellow-700 font-semibold mt-1">⏸️ Booking Paused by Admin</p>` : ""}
       </div>
       <div class="flex gap-3">
-        <button onclick="updateBooking('${b.id}','approved')" class="text-green-600 hover:text-green-800">
-          <i class="fa-solid fa-check"></i> Approve
-        </button>
-        <button onclick="updateBooking('${b.id}','rejected')" class="text-red-600 hover:text-red-800">
-          <i class="fa-solid fa-xmark"></i> Reject
-        </button>
+        ${
+          isPaused
+            ? `<span class="text-gray-500 italic text-sm">No actions available</span>`
+            : `
+              <button onclick="updateBooking('${b.id}','approved')" class="text-green-600 hover:text-green-800">
+                <i class="fa-solid fa-check"></i> Approve
+              </button>
+              <button onclick="updateBooking('${b.id}','rejected')" class="text-red-600 hover:text-red-800">
+                <i class="fa-solid fa-xmark"></i> Reject
+              </button>
+            `
+        }
       </div>
     `;
     container.appendChild(card);
   });
 }
 
-// Update Booking Status
+// ✅ Update Booking Status (منع تعديل الحجوزات الموقوفة)
 async function updateBooking(bookingId, newStatus) {
-  const { error } = await supabaseClient
-    .from("bookings")
-    .update({ status: newStatus })
-    .eq("id", bookingId);
+  try {
+    const { data: current, error: checkErr } = await supabaseClient
+      .from("bookings")
+      .select("status, admin_note")
+      .eq("id", bookingId)
+      .single();
 
-  if (error) {
-    console.error(error);
-    showToast("❌ Failed to update booking.", "error"); // second parmeter= success or "error"
+    if (checkErr || !current) {
+      showToast("❌ Failed to check booking status.", "error");
+      return;
+    }
 
-    return;
-  }
+    if (current.status === "paused") {
+      showToast("🚫 This booking is paused by admin.", "error");
+      return;
+    }
 
-  const card = document.querySelector(`[data-id='${bookingId}']`);
-  if (card) card.remove();
+    const { error } = await supabaseClient
+      .from("bookings")
+      .update({ status: newStatus })
+      .eq("id", bookingId);
 
-  showToast(`✅ Booking ${newStatus === "approved" ? "approved" : "rejected"} successfully!`, "success");
+    if (error) {
+      console.error(error);
+      showToast("❌ Failed to update booking.", "error");
+      return;
+    }
 
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  loadGuideOverview(user.id);
-}
+    const card = document.querySelector(`[data-id='${bookingId}']`);
+    if (card) card.remove();
 
-// Navigation Buttons Event Listeners
-document.querySelectorAll(".side-btn").forEach((btn) => {
-  btn.addEventListener("click", async () => {
-    document.querySelectorAll(".side-btn").forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    document.querySelectorAll("section[id^='section-']").forEach((s) => (s.style.display = "none"));
-
-    const target = btn.getAttribute("data-target");
-    const section = document.getElementById(target);
-    if (section) section.style.display = "block";
+    showToast(
+      `✅ Booking ${newStatus === "approved" ? "approved" : "rejected"} successfully!`,
+      "success"
+    );
 
     const { data: { user } } = await supabaseClient.auth.getUser();
-    if (!user) return window.location.href = "../login/login_guides.html";
+    loadGuideOverview(user.id);
+  } catch (err) {
+    console.error(err);
+    showToast("❌ Unexpected error.", "error");
+  }
+}
 
-    // Show loader overlay
-    let loader = document.createElement("div");
-    loader.className = "loading-spinner";
-    loader.innerHTML = `<div class="spinner"></div><span>Loading...</span>`;
-    section.appendChild(loader);
+// ✅ Complete Booking (مع التحقق من أن الطلب غير موقوف)
+async function markAsCompleted(bookingId) {
+  if (!confirm("Mark this trip as completed?")) return;
 
-    try {
-      switch (target) {
-        case "section-overview":
-          await loadGuideOverview(user.id);
-          break;
-        case "section-profile":
-          await loadGuideProfile(user.id);
-          await loadTags(user.id);
-          await loadLanguages(user.id);
-          break;
-        case "section-requests":
-          await loadRequests(user.id);
-          break;
-        case "section-approved":
-          await loadApprovedBookings(user.id);
-          break;
-        case "section-completed":
-          await loadCompletedTrips(user.id);
-          break;
-      }
-    } catch (err) {
-      console.error(err);
-      showToast("Failed to load data.", "error");
-    } finally {
-      loader.remove(); // Remove spinner when done
+  try {
+    const { data: current, error: checkErr } = await supabaseClient
+      .from("bookings")
+      .select("status, admin_note")
+      .eq("id", bookingId)
+      .single();
+
+    if (checkErr || !current) {
+      showToast("❌ Failed to check booking status.", "error");
+      return;
     }
-  });
-});
+
+    if (current.status === "paused") {
+      showToast("🚫 This booking is paused by admin.", "error");
+      return;
+    }
+
+    const { error } = await supabaseClient
+      .from("bookings")
+      .update({ status: "completed" })
+      .eq("id", bookingId);
+
+    if (error) {
+      console.error(error);
+      showToast("❌ Failed to mark as completed.", "error");
+      return;
+    }
+
+    showToast("✅ Trip marked as completed!", "success");
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    loadApprovedBookings(user.id);
+    loadGuideOverview(user.id);
+  } catch (err) {
+    console.error("❌ Unexpected error:", err);
+    showToast("❌ Unexpected error occurred.", "error");
+  }
+}
 
 // ✅ Load Approved Bookings
 async function loadApprovedBookings(guideId) {
@@ -480,10 +498,10 @@ async function loadApprovedBookings(guideId) {
   container.innerHTML = "";
   data.forEach((b) => {
     const card = document.createElement("div");
-   card.className = `
-  w-full max-w-sm bg-white border border-gray-200 rounded-2xl shadow-md p-5 
-  hover:shadow-lg transition-shadow duration-200
-`;
+    card.className = `
+      w-full max-w-sm bg-white border border-gray-200 rounded-2xl shadow-md p-5 
+      hover:shadow-lg transition-shadow duration-200
+    `;
     card.innerHTML = `
       <div>
         <p class="font-semibold text-[#556b2f]">${b.profiles?.full_name || "Unknown Tourist"}</p>
@@ -522,7 +540,7 @@ async function loadCompletedTrips(guideId) {
       id,
       start_at,
       num_guests,
-      profiles(full_name, email),
+      profiles(full_name, phone),
       places(title, city),
       reviews(rating, comment)
     `)
@@ -531,57 +549,48 @@ async function loadCompletedTrips(guideId) {
     .order("start_at", { ascending: false });
 
   if (error) {
-    console.error("❌ Error loading completed trips:", error);
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="7" class="error">Failed to load completed trips.</td>
-      </tr>
-    `;
-    showToast("Failed to load data.", "error");
+    console.error(error);
+    tbody.innerHTML = `<tr><td colspan="7" class="error">Failed to load completed trips.</td></tr>`;
     return;
   }
 
   if (!data.length) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="7" class="empty">No completed trips yet.</td>
-      </tr>
-    `;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty">No completed trips yet.</td></tr>`;
     return;
   }
 
   tbody.innerHTML = "";
 
-  data.forEach((trip) => {
-    const review = trip.reviews?.[0];
-    const rating = review?.rating
-      ? "⭐".repeat(review.rating) + ` (${review.rating}/5)`
-      : "—";
-    const comment = review?.comment || "No comment";
-
-    const touristName = trip.profiles?.full_name || "—";
-    const touristEmail = trip.profiles?.email || "—";
+  data.forEach((b) => {
+    const rating = b.reviews?.rating ? `${b.reviews.rating}/5` : "—";
+    const comment = b.reviews?.comment ? escapeHtml(b.reviews.comment) : "";
 
     tbody.insertAdjacentHTML(
       "beforeend",
       `
-        <tr>
-          <td>${trip.places?.title || "—"}</td>
-          <td>${trip.places?.city || "—"}</td>
-          <td>${new Date(trip.start_at).toLocaleDateString()}</td>
-          <td>${touristName}</td>
-          <td>${trip.num_guests || 1}</td>
-          <td>${rating}</td>
-          <td>
-            <button class="comment-btn" onclick="showCommentModal('${escapeHtml(comment)}')">
-              <i class="fa-solid fa-comment"></i> View
-            </button>
-          </td>
-        </tr>
-      `
+      <tr>
+        <td>${b.places?.title || "—"}</td>
+        <td>${b.places?.city || "—"}</td>
+        <td>${new Date(b.start_at).toLocaleDateString()}</td>
+        <td>${b.profiles?.full_name || "—"}</td>
+        <td>${b.num_guests || 1}</td>
+        <td>${rating}</td>
+        <td>
+          ${
+            comment
+              ? `<button class="comment-btn" onclick="showCommentModal('${comment}')">
+                   <i class="fa-solid fa-comment"></i> View
+                 </button>`
+              : "—"
+          }
+        </td>
+      </tr>
+    `
     );
   });
 }
+
+
 
 // helper to sanitize comment
 function escapeHtml(text) {
@@ -590,27 +599,45 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// Complete Booking
-async function markAsCompleted(bookingId) {
-  if (!confirm("Mark this trip as completed?")) return;
+// ✅ Navigation between side tabs (للتبديل بين الأقسام)
+document.querySelectorAll(".side-btn").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    document.querySelectorAll(".side-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
 
-  const { error } = await supabaseClient
-    .from("bookings")
-    .update({ status: "completed" })
-    .eq("id", bookingId);
+    document.querySelectorAll("section[id^='section-']").forEach((sec) => (sec.style.display = "none"));
 
-  if (error) {
-    console.error(error);
-    showToast("❌ Failed to mark as completed.", "error"); //success or "error"
+    const target = btn.getAttribute("data-target");
+    const section = document.getElementById(target);
+    if (section) section.style.display = "block";
 
-    return;
-  }
+    const titleEl = document.getElementById("section-title");
+    if (titleEl) titleEl.textContent = btn.innerText.trim();
 
-  showToast("✅ Trip marked as completed!", "success"); // or "error"
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  loadApprovedBookings(user.id);
-  loadGuideOverview(user.id); // لتحديث الإحصائيات
-}
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return (window.location.href = "../login/login_guides.html");
+
+    switch (target) {
+      case "section-overview":
+        await loadGuideOverview(user.id);
+        break;
+      case "section-profile":
+        await loadGuideProfile(user.id);
+        await loadTags(user.id);
+        await loadLanguages(user.id);
+        break;
+      case "section-requests":
+        await loadRequests(user.id);
+        break;
+      case "section-approved":
+        await loadApprovedBookings(user.id);
+        break;
+      case "section-completed":
+        await loadCompletedTrips(user.id);
+        break;
+    }
+  });
+});
 
 // Logout Button Event Listener
 document.getElementById("logoutBtn").addEventListener("click", async () => {

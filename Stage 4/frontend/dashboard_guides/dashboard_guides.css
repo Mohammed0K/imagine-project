@@ -200,19 +200,6 @@ body {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* ========== Toast (Future use) ========== */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 12px 18px;
-  background: #556b2f;
-  color: #fff;
-  border-radius: 8px;
-  opacity: 1;
-  transition: opacity 0.4s;
-}
-
 /* ========== Scrollbars & Layout ========== */
 main {
   min-height: 100vh;
@@ -321,34 +308,6 @@ main {
   font-size: 0.9rem;
   color: #444;
   margin: 4px 0;
-}
-
-
-/* ===== Toast Notification ===== */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: #7a9163;
-  color: #fff;
-  padding: 14px 20px;
-  border-radius: 10px;
-  font-weight: 500;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s ease;
-  z-index: 9999;
-}
-.toast.success {
-  background: #7a9163;
-}
-.toast.error {
-  background: #c94e4e;
-}
-.toast:not(.hidden) {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* ===== Completed Trips Table ===== */
@@ -477,4 +436,21 @@ main {
 .comment-btn:hover {
   background: #7a9163;
   color: #fff;
+}
+
+td .absolute {
+  z-index: 9999;
+}
+
+td .absolute {
+  transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+td .absolute.hidden {
+  opacity: 0;
+  transform: translateY(-5px);
+  pointer-events: none;
+}
+td .absolute:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
 }

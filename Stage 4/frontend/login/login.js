@@ -9,7 +9,7 @@ form.addEventListener("submit", async (e) => {
   const password = document.getElementById("password").value;
 
   if (!email || !password) {
-    alert("❌ Please enter your email and password.");
+    showToast("❌ Please enter your email and password.", "error");
     return;
   }
 
@@ -21,7 +21,7 @@ form.addEventListener("submit", async (e) => {
 
   if (error) {
     console.error("❌ Login Error:", error.message);
-    alert("❌ " + error.message);
+    showToast("❌ " + error.message, "error");
     return;
   }
 
@@ -37,14 +37,13 @@ form.addEventListener("submit", async (e) => {
 
   if (guideRow) {
     // 💡 المستخدم فعلاً مرشد سياحي
-    alert("⚠️ This account belongs to a Tour Guide.\nPlease log in through the guide login page instead.");
+    showToast("⚠️ This account belongs to a Tour Guide.\nPlease log in through the guide login page instead.", "error");
     await supabaseClient.auth.signOut();
     return;
   }
 
- alert("✅ Welcome back!");
 // بعد تسجيل الدخول
-alert("✅ Welcome back!");
+showToast("Login completed successfully", "success");
 
 // نقرأ رابط next من الـ query أو sessionStorage
 setTimeout(async () => {
@@ -64,7 +63,5 @@ setTimeout(async () => {
     window.location.href = "../home/home.html";
   }
 }, 500);
-
-
 
 });

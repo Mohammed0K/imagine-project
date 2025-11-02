@@ -3,40 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <title>My Bookings | IMAGINE</title>
-  <!-- الأساسيات المشتركة -->
-  <link rel="stylesheet" href="../shared/user.css" />
-  <!-- تخصيصات هذه الصفحة -->
-  <link rel="stylesheet" href="./my-bookings.css" />
+
+  <!-- ✅ Navbar & الأساسيات -->
+  <link rel="stylesheet" href="../shared/navbar.css" />
+  <link rel="stylesheet" href="../shared/ui.css" />
+  <link rel="stylesheet" href="../user/user-dashboard.css" />
+
+  <!-- ✅ Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- ✅ الخط -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ✅ تحسين لون روابط التواصل */
+    .contact-box a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 400;
+    }
+    .contact-box a:hover {
+      text-decoration: underline;
+      color: #111;
+    }
+
+    /* ✅ تمييز الزر النشط في Sidebar */
+    .user-sidebar ul a.active {
+      font-weight: 600;
+      color: #fff;
+      background: #556b2f;
+      padding: 8px 14px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .user-sidebar ul a.active:hover {
+      background: #445724;
+    }
+  </style>
 </head>
+
 <body>
-  <!-- ✅ Navbar موحّد -->
-  <div id="navbar"></div>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <!-- ملاحظة: المسار الصحيح لعميل Supabase (مرة واحدة فقط) -->
-  <script src="../supabase/supabaseClient.js"></script>
+  <!-- 🕌 Navbar -->
+  <header class="navbar">
+    <div id="navbar"></div>
+  </header>
   <script src="../shared/navbar.js"></script>
 
-  <div class="user-layout">
-    <!-- ✅ الشريط الجانبي -->
-    <aside class="sidebar card">
-      <div class="avatar-wrap">
-        <img id="avatarSmall" class="avatar" src="../assets/images/default.png" alt="avatar" />
-        <div class="username" id="sbName">—</div>
-        <div class="useremail" id="sbEmail">—</div>
-      </div>
+  <!-- ✅ محتوى الصفحة -->
+  <div class="user-dashboard">
+    <!-- 🎴 البطاقة الجانبية -->
+    <aside class="user-sidebar">
+  <img id="avatarSmall" src="../assets/images/default.png" alt="avatar" style="width:100%;height:200px;object-fit:cover;display:block;border-radius:0" />
+  
+  <div class="sidebar-content">
+    <div class="username" id="sbName">—</div>
+    <div class="useremail" id="sbEmail">—</div>
 
-      <ul class="navlist">
-        <li><a href="./profile.html">Profile</a></li>
-        <li><a class="active" href="./my-bookings.html">My Bookings</a></li>
-        <!-- <li><a href="./payments.html">Payments</a></li> -->
-        <!-- <li><a href="./security.html">Security</a></li> -->
-      </ul>
-    </aside>
+    <ul class="navlist mt-3">
+      <li><a href="./profile.html">Profile</a></li>
+      <li><a class="active" href="./my-bookings.html">My Bookings</a></li>
+    </ul>
+  </div>
+</aside>
 
-    <!-- ✅ المحتوى -->
-    <main class="card content-card">
+    <!-- 📋 المحتوى الرئيسي -->
+    <main class="user-main">
       <div class="header-actions">
-        <div class="h1">My Bookings</div>
+        <h1 class="h1 mb-3">My Bookings</h1>
+        <p class="sub mb-6">Track and manage your tour bookings easily.</p>
       </div>
 
       <div id="tableWrapper" class="table-wrapper">
@@ -44,18 +82,16 @@
           <thead>
             <tr>
               <th>Guide</th>
+              <th>Place</th>
               <th>Date</th>
               <th>Status</th>
-              <th width="160">Action</th>
+              <th width="180">Action</th>
             </tr>
           </thead>
-          <tbody id="bookingsList">
-            <!-- يتم التعبئة ديناميكيًا -->
-          </tbody>
+          <tbody id="bookingsList"></tbody>
         </table>
       </div>
 
-      <!-- ✅ حالة عدم وجود بيانات -->
       <div id="emptyState" class="empty-state" hidden>
         <p>No bookings yet.</p>
         <a class="btn btn-primary" href="../guides/guides.html">Find a guide</a>
@@ -63,37 +99,38 @@
     </main>
   </div>
 
-  <!-- ✅ نافذة التقييم -->
-  <div id="reviewModal" class="modal">
-    <div class="box">
-      <h3 class="h1" style="font-size:1.2rem;margin-bottom:12px">Rate Guide</h3>
+<!-- ✅ Review Modal -->
+<div id="reviewModal" class="modal">
+  <div class="modal-box">
+    <h3 class="modal-title">Rate Your Guide</h3>
+    <p class="modal-sub">Share your experience with your guide.</p>
 
-      <label class="label">Rating ⭐</label>
-      <select id="rating" class="select rating-select">
-        <option value="1">⭐</option>
-        <option value="2">⭐⭐</option>
-        <option value="3">⭐⭐⭐</option>
-        <option value="4">⭐⭐⭐⭐</option>
-        <option value="5">⭐⭐⭐⭐⭐</option>
-      </select>
+    <!-- ⭐ تقييم النجوم -->
+    <div class="stars" id="starsContainer">
+      <i class="fa-regular fa-star" data-value="1"></i>
+      <i class="fa-regular fa-star" data-value="2"></i>
+      <i class="fa-regular fa-star" data-value="3"></i>
+      <i class="fa-regular fa-star" data-value="4"></i>
+      <i class="fa-regular fa-star" data-value="5"></i>
+    </div>
 
-      <label class="label mt-3">Comment</label>
-      <textarea id="comment" class="textarea" placeholder="Your experience..."></textarea>
+    <!-- 💬 التعليق -->
+    <textarea id="comment" class="textarea" placeholder="Write your comment here..."></textarea>
 
-      <div class="actions">
-        <button id="saveReviewBtn" class="btn btn-primary">Submit</button>
-        <button type="button" onclick="closeModal()" class="btn btn-secondary">Cancel</button>
-      </div>
+    <!-- 🔘 الأزرار -->
+    <div class="actions">
+      <button id="saveReviewBtn" class="btn btn-primary">Submit Review</button>
+      <button type="button" onclick="closeModal()" class="btn btn-secondary">Cancel</button>
     </div>
   </div>
+</div>
 
-  <!-- ✅ سكربت الصفحة -->
+
+
+  <!-- ✅ Scripts -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="../supabase/supabaseClient.js"></script>
   <script src="./my-bookings.js"></script>
-
-   <!-- ⚓ Footer -->
-  <footer class="footer">
-    <p>© 2025 Imagine Project</p>
-  </footer>
-  
+  <script src="../shared/ui.js"></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 console.log("✅ profile.js loaded");
 
 const avatarImg = document.getElementById("avatarImg");
-const avatarBtn = document.getElementById("avatarBtn");
 const avatarInput = document.getElementById("avatarInput");
 const uName = document.getElementById("uName");
 const uEmail = document.getElementById("uEmail");
@@ -13,6 +12,12 @@ const city = document.getElementById("city");
 const bio = document.getElementById("bio");
 const form = document.getElementById("profileForm");
 const resetBtn = document.getElementById("resetBtn");
+
+// Popup elements
+const avatarModal = document.getElementById("avatarModal");
+const uploadNewBtn = document.getElementById("uploadNewBtn");
+const removeAvatarBtn = document.getElementById("removeAvatarBtn");
+const closeAvatarModal = document.getElementById("closeAvatarModal");
 
 // Load current profile
 async function loadProfile() {
@@ -30,14 +35,12 @@ async function loadProfile() {
   city.value = meta.city || "";
   bio.value = meta.bio || "";
 
-  // Avatar
-  const fallback = "/assets/images/default.png";
-  const url = meta.avatar_url || fallback;
-  avatarImg.src = url;
+  const fallback = "../assets/images/default.png";
+  avatarImg.src = meta.avatar_url || fallback;
 }
 loadProfile();
 
-// Save profile
+// Save profile info
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const payload = {
@@ -47,40 +50,75 @@ form.addEventListener("submit", async (e) => {
       country: country.value.trim(),
       city: city.value.trim(),
       bio: bio.value.trim(),
-      // keep avatar_url as is (not modified here)
-    }
+    },
   };
-  const { data, error } = await supabaseClient.auth.updateUser(payload);
-  if (error) { alert("❌ Failed to save"); console.error(error); return; }
-  alert("✅ Saved");
+  const { error } = await supabaseClient.auth.updateUser(payload);
+  if (error) return showToast("❌ Failed to save", "error");
+  showToast("✅ Saved successfully", "success");
   loadProfile();
 });
 
 // Reset
 resetBtn.addEventListener("click", () => loadProfile());
 
-// Upload avatar → Supabase Storage bucket: "avatars" (public)
-avatarBtn.addEventListener("click", () => avatarInput.click());
+// ✅ Avatar Modal Logic
+avatarImg.addEventListener("click", () => {
+  avatarModal.classList.add("show");
+});
+
+closeAvatarModal.addEventListener("click", () => {
+  avatarModal.classList.remove("show");
+});
+
+// Upload new photo
+uploadNewBtn.addEventListener("click", () => {
+  avatarInput.click();
+});
+
 avatarInput.addEventListener("change", async () => {
   const file = avatarInput.files?.[0];
   if (!file) return;
 
   const { data: auth } = await supabaseClient.auth.getUser();
   const userId = auth.user.id;
-  const path = `public/${userId}-${Date.now()}`; // unique name
+  const path = `public/${userId}-${Date.now()}`;
 
-  // Upload (create the bucket "avatars" and make it public from Supabase UI once)
-  const { error: upErr } = await supabaseClient.storage.from("avatars").upload(path, file, { upsert: true });
-  if (upErr) { alert("❌ Upload failed"); console.error(upErr); return; }
+  showLoader(true); // يبدأ التحميل
 
-  // build public URL
+  const { error: upErr } = await supabaseClient.storage
+    .from("avatars")
+    .upload(path, file, { upsert: true });
+    showLoader(false); // يخفي التحميل بعد الانتهاء
+
+  if (upErr) {
+    showToast("❌ Upload failed", "error");
+    console.error(upErr);
+    return;
+  }
+
   const { data: pub } = supabaseClient.storage.from("avatars").getPublicUrl(path);
   const publicUrl = pub.publicUrl;
 
-  // Save to user metadata
   const { error: metaErr } = await supabaseClient.auth.updateUser({ data: { avatar_url: publicUrl } });
-  if (metaErr) { alert("❌ Failed to set avatar"); console.error(metaErr); return; }
+  if (metaErr) {
+    showToast("❌ Failed to save avatar", "error");
+    console.error(metaErr);
+    return;
+  }
 
   avatarImg.src = publicUrl;
-  alert("✅ Avatar updated!");
+  avatarModal.classList.remove("show");
+  showToast("✅ Avatar updated successfully", "success");
+});
+
+// Remove avatar
+removeAvatarBtn.addEventListener("click", async () => {
+  const { error } = await supabaseClient.auth.updateUser({ data: { avatar_url: null } });
+  if (error) {
+    showToast("❌ Failed to remove avatar", "error");
+    return;
+  }
+  avatarImg.src = "../assets/images/default.png";
+  avatarModal.classList.remove("show");
+  showToast("✅ Avatar removed", "success");
 });

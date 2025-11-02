@@ -92,13 +92,19 @@ try {
 }
 
 
-      if (guide?.status === "pending") {
-        await supabaseClient.auth.signOut();
-        avatar.style.display = "none";
-        authBtn.style.display = "none";
-        window.location.href = "../guides/pending.html";
-        return;
-      }
+      // إذا المرشد حالته pending ↝ خله يبقى في pending.html بدون تسجيل خروج
+if (guide?.status === "pending") {
+
+  // إذا المستخدم فعلاً داخل pending.html → لا نسوي شيء
+  if (window.location.pathname.includes("pending.html")) {
+    return;
+  }
+
+  // غير كذا → نحوله لصفحة الانتظار فقط (بدون تسجيل خروج)
+  window.location.href = "../guides/pending.html";
+  return;
+}
+
 
       avatar.addEventListener("click", () => {
         if (profile?.role === "admin")

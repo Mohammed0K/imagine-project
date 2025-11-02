@@ -7,7 +7,7 @@ document.getElementById("adminLoginForm").addEventListener("submit", async (e) =
   const password = document.getElementById("password").value.trim();
 
   if (!email || !password) {
-    alert("⚠️ Please fill in all fields");
+    showToast("⚠️ Please fill in all fields", "error");
     return;
   }
 
@@ -18,7 +18,7 @@ document.getElementById("adminLoginForm").addEventListener("submit", async (e) =
   });
 
   if (error || !data.user) {
-    alert("❌ Invalid email or password.");
+    showToast("❌ Invalid email or password.", "error");
     console.error(error);
     return;
   }
@@ -31,17 +31,17 @@ document.getElementById("adminLoginForm").addEventListener("submit", async (e) =
     .single();
 
   if (profileErr) {
-    alert("⚠️ Error checking admin role");
+    showToast("⚠️ Error checking admin role", "error");
     console.error(profileErr);
     return;
   }
 
   if (profile.role !== "admin") {
-    alert("🚫 Access denied. Admins only.");
+    showToast("🚫 Access denied. Admins only.", "error");
     await supabaseClient.auth.signOut();
     return;
   }
 
-  alert("✅ Welcome, Admin!");
+  showToast("✅ Operation completed successfully", "success");
   window.location.href = "../dashboard/dashboard.html";
 });

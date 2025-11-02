@@ -1,85 +1,744 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8" />
-<title>Profile | IMAGINE</title>
-<link rel="stylesheet" href="../shared/user.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | IMAGINE</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../shared/navbar.css" />
+  <link rel="stylesheet" href="../shared/ui.css" />
+  <link rel="stylesheet" href="../user/user-dashboard.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Sidebar Avatar */
+    .avatar-wrapper {
+      position: relative;
+      display: block;
+      cursor: pointer;
+      margin: 0;
+      width: 100%;
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 200px;
+      border-radius: 0;
+      object-fit: cover;
+      box-shadow: none;
+      transition: transform 0.25s ease, filter 0.25s ease;
+      border: none;
+      background: none;
+      display: block;
+    }
+
+    .avatar-wrapper:hover img {
+      transform: scale(1.02);
+      filter: brightness(0.95);
+    }
+
+    .sidebar-content {
+      padding: 20px 25px;
+    }
+
+    .username {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 1rem;
+      margin-top: 15px;
+    }
+
+    .useremail {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    /* Page Transitions */
+    .page-content {
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hide pages by default */
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    /* Profile Form */
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding-inline: 8px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px !important;
+      margin-bottom: 20px !important;
+    }
+
+    @media (max-width: 700px) {
+      .row {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+    }
+
+    .label {
+      font-weight: 500;
+      color: var(--brand);
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .input, .textarea {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: "Poppins", sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+    }
+
+    .input:focus, .textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(85, 107, 47, 0.15);
+      outline: none;
+    }
+
+    .textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .rowc {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Avatar Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(3px);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal.show {
+      display: flex;
+      animation: fadeZoom 0.25s ease forwards;
+    }
+
+    @keyframes fadeZoom {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-box {
+      background: #fff;
+      padding: 30px 35px;
+      border-radius: 14px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+      width: 90%;
+      max-width: 420px;
+    }
+
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .modal-sub {
+      color: #777;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* Stars */
+    .stars {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .stars i {
+      font-size: 1.8rem;
+      color: #ddd;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .stars i.active {
+      color: #ffca28;
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 
 <body>
-<!-- ✅ Unified Navbar -->
-<div id="navbar"></div>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="../supabase/supabaseClient.js"></script>
-<script src="../shared/navbar.js"></script>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div id="navbar"></div>
+  </header>
+  <script src="../shared/navbar.js"></script>
 
-<div class="user-layout">
-  <!-- Sidebar -->
-  <aside class="sidebar card">
-    <div class="avatar-wrap">
-      <img id="avatarImg" class="avatar" src="/assets/images/default.png" alt="avatar">
-      <button id="avatarBtn" class="btn btn-secondary">Change photo</button>
-      <input id="avatarInput" type="file" accept="image/*" hidden>
-      <div class="username" id="uName">—</div>
-      <div class="useremail" id="uEmail">—</div>
+  <div class="user-dashboard">
+    <!-- Sidebar -->
+    <aside class="user-sidebar">
+      <div class="avatar-wrapper">
+        <img id="avatarImg" src="../assets/images/default.png" alt="avatar" />
+      </div>
+      <input id="avatarInput" type="file" accept="image/*" hidden />
+
+      <div class="sidebar-content">
+        <div class="username" id="uName">—</div>
+        <div class="useremail" id="uEmail">—</div>
+
+        <ul class="navlist mt-3">
+          <li><a href="#" data-page="profile" class="nav-link active">Profile</a></li>
+          <li><a href="#" data-page="bookings" class="nav-link">My Bookings</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="user-main">
+      <!-- Profile Page -->
+      <div id="profilePage" class="page-section active">
+        <h1 class="h1 mb-3">Profile</h1>
+        <p class="sub mb-6">Manage your personal info and account picture.</p>
+
+        <form id="profileForm" class="form">
+          <div class="row">
+            <div>
+              <div class="label">Full name</div>
+              <input id="fullName" class="input" placeholder="Your name" />
+            </div>
+            <div>
+              <div class="label">Phone</div>
+              <input id="phone" class="input" placeholder="+9665..." />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="label">Country</div>
+              <input id="country" class="input" placeholder="Saudi Arabia" />
+            </div>
+            <div>
+              <div class="label">City</div>
+              <input id="city" class="input" placeholder="Riyadh" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="label">Bio</div>
+              <textarea id="bio" class="textarea" placeholder="Tell us about your travel style..."></textarea>
+            </div>
+          </div>
+
+          <div class="rowc mt-3">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button id="resetBtn" type="button" class="btn btn-secondary">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Bookings Page -->
+      <div id="bookingsPage" class="page-section">
+        <h1 class="h1 mb-3">My Bookings</h1>
+        <p class="sub mb-6">Track and manage your tour bookings easily.</p>
+
+        <div id="tableWrapper" class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Guide</th>
+                <th>Place</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th width="180">Action</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsList"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="empty-state" hidden>
+          <p>No bookings yet.</p>
+          <a class="btn btn-primary" href="../guides/guides.html">Find a guide</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Avatar Modal -->
+  <div id="avatarModal" class="modal">
+    <div class="modal-box">
+      <h3 class="modal-title">Profile Picture</h3>
+      <p class="modal-sub">Choose an option below:</p>
+      <div class="actions">
+        <button id="uploadNewBtn" class="btn btn-primary">Upload New</button>
+        <button id="removeAvatarBtn" class="btn btn-secondary">Remove</button>
+        <button id="closeAvatarModal" class="btn btn-secondary">Cancel</button>
+      </div>
     </div>
-    <ul class="navlist">
-      <li><a class="active" href="./profile.html">Profile</a></li>
-      <li><a href="./my-bookings.html">My Bookings</a></li>
-       <!-- <li><a href="./payments.html">Payments</a></li> -->
-        <!-- <li><a href="./security.html">Security</a></li> -->
-    </ul>
-  </aside>
+  </div>
 
-  <!-- Main -->
-  <main class="card" style="padding:20px">
-    <div class="h1">Profile</div>
-    <div class="sub">Manage your personal info and account picture.</div>
+  <!-- Review Modal -->
+  <div id="reviewModal" class="modal">
+    <div class="modal-box">
+      <h3 class="modal-title">Rate Your Guide</h3>
+      <p class="modal-sub">Share your experience with your guide.</p>
 
-    <form id="profileForm" class="form">
-      <div class="row">
-        <div>
-          <div class="label">Full name</div>
-          <input id="fullName" class="input" placeholder="Your name">
-        </div>
-        <div>
-          <div class="label">Phone</div>
-          <input id="phone" class="input" placeholder="+9665...">
-        </div>
+      <div class="stars" id="starsContainer">
+        <i class="fa-regular fa-star" data-value="1"></i>
+        <i class="fa-regular fa-star" data-value="2"></i>
+        <i class="fa-regular fa-star" data-value="3"></i>
+        <i class="fa-regular fa-star" data-value="4"></i>
+        <i class="fa-regular fa-star" data-value="5"></i>
       </div>
 
-      <div class="row">
-        <div>
-          <div class="label">Country</div>
-          <input id="country" class="input" placeholder="Saudi Arabia">
-        </div>
-        <div>
-          <div class="label">City</div>
-          <input id="city" class="input" placeholder="Riyadh">
-        </div>
-      </div>
+      <textarea id="comment" class="textarea" placeholder="Write your comment here..."></textarea>
 
-      <div class="row">
-        <div>
-          <div class="label">Bio</div>
-          <textarea id="bio" class="textarea" placeholder="Tell us about your travel style..."></textarea>
-        </div>
-        <div></div>
+      <div class="actions">
+        <button id="saveReviewBtn" class="btn btn-primary">Submit Review</button>
+        <button type="button" onclick="closeReviewModal()" class="btn btn-secondary">Cancel</button>
       </div>
+    </div>
+  </div>
 
-      <div class="rowc mt-3">
-        <button type="submit" class="btn btn-primary">Save changes</button>
-        <button id="resetBtn" type="button" class="btn btn-secondary">Reset</button>
-      </div>
-    </form>
-  </main>
-</div>
-<!-- ✅ ملف ملف التعريف -->
-<script src="./profile.js"></script>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="../supabase/supabaseClient.js"></script>
+  <script src="../shared/ui.js"></script>
 
- <!-- ⚓ Footer -->
-  <footer class="footer">
-    <p>© 2025 Imagine Project</p>
-  </footer>
-  
+  <script>
+    console.log("✅ User Dashboard SPA Loaded");
+
+    // Global Variables
+    let currentUser = null;
+    let selectedBookingId = null;
+    let selectedGuideId = null;
+    let selectedRating = 0;
+
+    // Elements
+    const avatarImg = document.getElementById("avatarImg");
+    const avatarInput = document.getElementById("avatarInput");
+    const uName = document.getElementById("uName");
+    const uEmail = document.getElementById("uEmail");
+    const fullName = document.getElementById("fullName");
+    const phone = document.getElementById("phone");
+    const country = document.getElementById("country");
+    const city = document.getElementById("city");
+    const bio = document.getElementById("bio");
+    const profileForm = document.getElementById("profileForm");
+    const resetBtn = document.getElementById("resetBtn");
+    const avatarModal = document.getElementById("avatarModal");
+    const uploadNewBtn = document.getElementById("uploadNewBtn");
+    const removeAvatarBtn = document.getElementById("removeAvatarBtn");
+    const closeAvatarModal = document.getElementById("closeAvatarModal");
+    const bookingsList = document.getElementById("bookingsList");
+    const reviewModal = document.getElementById("reviewModal");
+    const tableWrapper = document.getElementById("tableWrapper");
+    const emptyState = document.getElementById("emptyState");
+
+    // ==========================================
+    // 🔄 PAGE NAVIGATION (SPA Logic)
+    // ==========================================
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const page = e.target.dataset.page;
+        
+        // Update active link
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        e.target.classList.add('active');
+        
+        // Show selected page
+        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+        
+        if (page === 'profile') {
+          document.getElementById('profilePage').classList.add('active');
+          loadProfile();
+        } else if (page === 'bookings') {
+          document.getElementById('bookingsPage').classList.add('active');
+          loadBookings();
+        }
+      });
+    });
+
+    // ==========================================
+    // 👤 PROFILE FUNCTIONS
+    // ==========================================
+    async function loadProfile() {
+      const { data, error } = await supabaseClient.auth.getUser();
+      if (error || !data.user) {
+        console.error(error);
+        window.location.href = "../login/login.html";
+        return;
+      }
+      
+      currentUser = data.user;
+      const meta = currentUser.user_metadata || {};
+      
+      uEmail.textContent = currentUser.email;
+      uName.textContent = meta.full_name || "Traveler";
+      
+      fullName.value = meta.full_name || "";
+      phone.value = meta.phone || "";
+      country.value = meta.country || "";
+      city.value = meta.city || "";
+      bio.value = meta.bio || "";
+      
+      const fallback = "../assets/images/default.png";
+      avatarImg.src = meta.avatar_url || fallback;
+    }
+
+    // Save profile
+    profileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = {
+        data: {
+          full_name: fullName.value.trim(),
+          phone: phone.value.trim(),
+          country: country.value.trim(),
+          city: city.value.trim(),
+          bio: bio.value.trim(),
+        },
+      };
+      const { error } = await supabaseClient.auth.updateUser(payload);
+      if (error) return showToast("❌ Failed to save", "error");
+      showToast("✅ Saved successfully", "success");
+      loadProfile();
+    });
+
+    // Reset
+    resetBtn.addEventListener("click", () => loadProfile());
+
+    // Avatar Modal
+    avatarImg.addEventListener("click", () => {
+      avatarModal.classList.add("show");
+    });
+
+    closeAvatarModal.addEventListener("click", () => {
+      avatarModal.classList.remove("show");
+    });
+
+    uploadNewBtn.addEventListener("click", () => {
+      avatarInput.click();
+    });
+
+    avatarInput.addEventListener("change", async () => {
+      const file = avatarInput.files?.[0];
+      if (!file) return;
+
+      const { data: auth } = await supabaseClient.auth.getUser();
+      const userId = auth.user.id;
+      const path = `public/${userId}-${Date.now()}`;
+
+      showLoader(true);
+
+      const { error: upErr } = await supabaseClient.storage
+        .from("avatars")
+        .upload(path, file, { upsert: true });
+      
+      showLoader(false);
+
+      if (upErr) {
+        showToast("❌ Upload failed", "error");
+        console.error(upErr);
+        return;
+      }
+
+      const { data: pub } = supabaseClient.storage.from("avatars").getPublicUrl(path);
+      const publicUrl = pub.publicUrl;
+
+      const { error: metaErr } = await supabaseClient.auth.updateUser({ 
+        data: { avatar_url: publicUrl } 
+      });
+      
+      if (metaErr) {
+        showToast("❌ Failed to save avatar", "error");
+        console.error(metaErr);
+        return;
+      }
+
+      avatarImg.src = publicUrl;
+      avatarModal.classList.remove("show");
+      showToast("✅ Avatar updated successfully", "success");
+    });
+
+    removeAvatarBtn.addEventListener("click", async () => {
+      const { error } = await supabaseClient.auth.updateUser({ 
+        data: { avatar_url: null } 
+      });
+      if (error) {
+        showToast("❌ Failed to remove avatar", "error");
+        return;
+      }
+      avatarImg.src = "../assets/images/default.png";
+      avatarModal.classList.remove("show");
+      showToast("✅ Avatar removed", "success");
+    });
+
+    // ==========================================
+    // 📅 BOOKINGS FUNCTIONS
+    // ==========================================
+    async function loadBookings() {
+      try {
+        showLoader(true); // ✅ بداية التحميل
+        bookingsList.innerHTML = "";
+
+        const { data: authData, error: authErr } = await supabaseClient.auth.getUser();
+        if (authErr || !authData?.user) {
+          window.location.href = "../login/login.html";
+          return;
+        }
+        const user = authData.user;
+
+        const { data: bookings, error } = await supabaseClient
+          .from("bookings")
+          .select(`
+            id,
+            status,
+            start_at,
+            created_at,
+            guide_id,
+            guides(full_name, phone),
+            places(title)
+          `)
+          .eq("customer_id", user.id)
+          .order("start_at", { ascending: false, nullsFirst: false })
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        bookingsList.innerHTML = "";
+
+        if (!bookings?.length) {
+          showLoader(false); // ✅ إخفاء عند عدم وجود بيانات
+          tableWrapper.style.display = "none";
+          emptyState.hidden = false;
+          return;
+        }
+
+        tableWrapper.style.display = "block";
+        emptyState.hidden = true;
+
+        const guideIds = [...new Set(bookings.map(b => b.guide_id).filter(Boolean))];
+        let emailByGuideId = {};
+        if (guideIds.length) {
+          const { data: guideProfiles } = await supabaseClient
+            .from("profiles_view")
+            .select("id, email")
+            .in("id", guideIds);
+          guideProfiles?.forEach(p => emailByGuideId[p.id] = p.email);
+        }
+
+        for (const booking of bookings) {
+          const { count } = await supabaseClient
+            .from("reviews")
+            .select("id", { count: "exact", head: true })
+            .eq("booking_id", booking.id);
+
+          const hasReview = (count || 0) > 0;
+          const canReview = booking.status?.toLowerCase() === "completed" && !hasReview;
+
+          const statusText = (booking.status || "").toLowerCase();
+          const statusMap = {
+            pending: "pending",
+            approved: "approved",
+            canceled: "canceled",
+            cancel: "cancel",
+            pause: "pause",
+            paused: "paused",
+            reject: "reject",
+            rejected: "rejected",
+            completed: "completed",
+            complete: "complete",
+          };
+          const statusClass = statusMap[statusText] || "neutral";
+
+          const guideName = booking.guides?.full_name ?? "Unknown Guide";
+          const guidePhone = booking.guides?.phone || "—";
+          const guideEmail = emailByGuideId[booking.guide_id] || "—";
+          const placeTitle = booking.places?.title || "—";
+
+          const showContact = ["approved", "completed"].includes(statusText);
+          const contactHTML = showContact ? `
+            <div class="contact-row">
+              <a href="mailto:${guideEmail}" title="Email"><i class="fa-regular fa-envelope"></i> ${guideEmail}</a>
+              <a href="tel:${guidePhone}" title="Call"><i class="fa-solid fa-phone"></i> ${guidePhone}</a>
+              <a target="_blank"
+                 href="https://wa.me/${guidePhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                   `Hi ${guideName}, this is my booking on IMAGINE.`)}"
+                 title="WhatsApp"><i class="fa-brands fa-whatsapp"></i> Chat</a>
+            </div>` : "";
+
+          bookingsList.insertAdjacentHTML("beforeend", `
+            <tr>
+              <td>
+                <strong>${guideName}</strong>
+                ${contactHTML}
+              </td>
+              <td><span class="place-chip">${placeTitle}</span></td>
+              <td>${new Date(booking.start_at || booking.created_at).toLocaleDateString()}</td>
+              <td><span class="badge ${statusClass}">${statusText}</span></td>
+              <td>
+                ${
+                  canReview
+                    ? `<button class="btn btn-primary review-btn"
+                        data-id="${booking.id}"
+                        data-guide="${booking.guide_id}">Review</button>`
+                    : `<button class="btn btn-secondary" disabled>—</button>`
+                }
+                ${
+                  statusText === "pending"
+                    ? `<button class="btn btn-ghost" onclick="cancelBooking('${booking.id}')">Cancel</button>`
+                    : ""
+                }
+              </td>
+            </tr>
+          `);
+        }
+
+        document.querySelectorAll(".review-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            openReview(btn.dataset.id, btn.dataset.guide);
+          });
+        });
+
+        showLoader(false); // ✅ إخفاء بعد انتهاء التحميل
+
+      } catch (err) {
+        showLoader(false); // ✅ إخفاء عند حدوث خطأ
+        console.error("❌ Load Error:", err);
+        bookingsList.innerHTML = `<tr><td colspan="5" style="padding:12px;color:#c00">Error loading bookings.</td></tr>`;
+      }
+    }
+
+    function openReview(id, guideId = null) {
+      selectedBookingId = id;
+      selectedGuideId = guideId;
+      reviewModal.classList.add("show");
+    }
+
+    function closeReviewModal() {
+      reviewModal.classList.remove("show");
+    }
+
+    window.cancelBooking = async function(id) {
+      if (!confirm("Cancel this booking?")) return;
+      try {
+        const { error } = await supabaseClient
+          .from("bookings")
+          .update({ status: "canceled" })
+          .eq("id", id);
+        if (error) throw error;
+
+        showToast("✅ Booking canceled successfully", "success");
+        loadBookings();
+      } catch (e) {
+        console.error(e);
+        showToast("❌ Failed to cancel", "error");
+      }
+    };
+
+    // ==========================================
+    // ⭐ REVIEW FUNCTIONS
+    // ==========================================
+    const stars = document.querySelectorAll("#starsContainer i");
+    stars.forEach(star => {
+      star.addEventListener("click", () => {
+        selectedRating = parseInt(star.dataset.value);
+        stars.forEach(s =>
+          s.classList.toggle("active", parseInt(s.dataset.value) <= selectedRating)
+        );
+      });
+    });
+
+    document.getElementById("saveReviewBtn").addEventListener("click", async () => {
+      try {
+        const rating = selectedRating;
+        const comment = document.getElementById("comment").value.trim();
+
+        if (!rating) {
+          showToast("⭐ Please select a rating", "error");
+          return;
+        }
+        if (!comment) {
+          showToast("💬 Please write a comment", "error");
+          return;
+        }
+
+        const { error } = await supabaseClient.from("reviews").insert([
+          {
+            booking_id: selectedBookingId,
+            guide_id: selectedGuideId,
+            rating,
+            comment
+          }
+        ]);
+
+        if (error) throw error;
+
+        showToast("✅ Review submitted successfully", "success");
+        closeReviewModal();
+        loadBookings();
+      } catch (e) {
+        console.error("❌ Insert Error:", e);
+        showToast("❌ Failed to add review", "error");
+      }
+    });
+
+    // ==========================================
+    // 🚀 INIT
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", () => {
+      loadProfile();
+    });
+  </script>
 </body>
-
 </html>

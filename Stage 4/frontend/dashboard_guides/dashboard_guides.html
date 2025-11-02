@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="../shared/navbar.css" />
     <link rel="stylesheet" href="dashboard_guides.css" />
+    <link rel="stylesheet" href="../shared/ui.css" />
   </head>
 
   <body class="bg-[#fffaf3] text-gray-800">
@@ -39,9 +40,6 @@
           <button class="side-btn" data-target="section-completed">
             <i class="fa-solid fa-list-check mr-2"></i> Completed Trips
           </button>
-          <button id="logoutBtn" class="mt-auto text-red-600 font-semibold">
-            <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
-          </button>
         </nav>
       </aside>
 
@@ -68,6 +66,12 @@
                 <label class="block font-semibold">Age</label>
                 <input id="age" type="number" class="border rounded p-2 w-full" min="18" max="80" />
               </div>
+            </div>
+
+            <!-- ✅ Phone (جديد) -->
+            <div>
+              <label class="block font-semibold">Phone</label>
+              <input id="phone" type="tel" class="border rounded p-2 w-full" placeholder="+9665..." />
             </div>
 
             <div>
@@ -153,7 +157,6 @@
       </section>
     </main>
 
-    <div id="toast" class="toast hidden"></div>
     <div id="commentModal" class="modal hidden">
       <div class="modal-content">
         <h3>Tourist Comment</h3>
@@ -164,6 +167,7 @@
 
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="../supabase/supabaseClient.js"></script>
+    <script src="../shared/ui.js"></script>
     <script src="dashboard_guides.js"></script>
   </body>
 </html>

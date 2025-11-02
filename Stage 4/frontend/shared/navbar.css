@@ -18,7 +18,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 40px;
+  width: 100%;              /* ✅ تمتد العرض الكامل */
+  max-width: none !important; /* ✅ تلغي أي max-width من Tailwind أو global */
+  margin: 0;                /* ✅ تضمن الالتصاق بالحواف */
 }
+
 
 /* ===== Logo ===== */
 .logo {
@@ -150,3 +154,49 @@
   padding-top: 64px; /* 👈 يترك فراغ تحت النافبار */
 }
 
+header.navbar, .navbar, #navbar { width: 100%; }
+.navbar .container { max-width: 100%; width: 100%; margin: 0 auto; }
+body.has-navbar { padding-top: var(--navbar-height, 64px); }
+
+
+/* ===== 🌿 IMAGINE Navbar (Full Alignment Fix) ===== */
+header.navbar {
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+header.navbar #navbar {
+  width: 95%;                /* بدلاً من max-width */
+  max-width: 1400px;         /* يعطي حرية أكبر للشاشات العريضة */
+  margin: 0 auto;
+  padding: 0 25px;           /* قلل الحافة الجانبية */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  box-sizing: border-box;
+}
+
+/* ضبط المسافات على الشاشات الصغيرة */
+@media (max-width: 768px) {
+  header.navbar #navbar {
+    width: 100%;
+    padding: 0 15px;
+  }
+}
+
+.navbar .container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}

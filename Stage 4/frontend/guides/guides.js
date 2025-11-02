@@ -6,7 +6,7 @@ console.log("✅ guides.js loaded");
 
   const { data: guides, error } = await supabaseClient
     .from("guides")
-    .select("id, full_name, city, languages, avatar_url, receiving_requests, status")
+    .select("id, full_name, city, languages, avatar_url, bio, receiving_requests, status")
     .eq("status", "approved")
     .eq("receiving_requests", true);
 
@@ -24,25 +24,20 @@ console.log("✅ guides.js loaded");
   // ✅ إنشاء البطاقات
   for (const g of guides) {
     // 🟢 حساب التقييم من جدول reviews عبر bookings
-    let avgRating = "—";
-    const { data: bookings } = await supabaseClient
-      .from("bookings")
-      .select("id")
-      .eq("guide_id", g.id);
+  // 🟢 حساب متوسط التقييم مباشرة من جدول reviews
+let avgRating = "—";
 
-    if (bookings && bookings.length > 0) {
-      const bookingIds = bookings.map((b) => b.id);
-      const { data: reviews } = await supabaseClient
-        .from("reviews")
-        .select("rating")
-        .in("booking_id", bookingIds);
+const { data: ratings, error: rErr } = await supabaseClient
+  .from("reviews")
+  .select("rating")
+  .eq("guide_id", g.id);
 
-      if (reviews && reviews.length > 0) {
-        avgRating = (
-          reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length
-        ).toFixed(1);
-      }
-    }
+if (!rErr && ratings && ratings.length > 0) {
+  const sum = ratings.reduce((total, r) => total + (r.rating || 0), 0);
+  avgRating = (sum / ratings.length).toFixed(1);
+}
+
+    
 
     const langs = Array.isArray(g.languages)
       ? g.languages.join(", ")
@@ -57,6 +52,7 @@ console.log("✅ guides.js loaded");
       <div class="region">${g.city || "—"}</div>
       <div class="languages">Languages: ${langs}</div>
       <div class="rating">⭐ ${avgRating}</div>
+      <p class="bio text-gray-600 text-sm mt-2">${g.bio ? g.bio.substring(0, 100) + "..." : "No bio available."}</p>
       <button class="book-btn" onclick="openPlacesModal('${g.id}', '${g.full_name}')">
         View Coverage
       </button>

@@ -13,11 +13,11 @@ document.getElementById("guideForm").addEventListener("submit", async (e) => {
 
   // 🧩 التحقق من الإدخالات
   if (!name || !email || !password || !age || !licenseNumber) {
-    alert("❌ الرجاء ملء جميع الحقول المطلوبة");
+    showToast("❌ Please fill in all required fields.", "error");
     return;
   }
-  if (!licenseFile) return alert("❌ الرجاء رفع ملف الرخصة");
-  if (isNaN(age) || age < 18) return alert("❌ يجب أن يكون العمر 18 أو أكثر");
+  if (!licenseFile) return showToast("❌ Please upload the license file.", "error");
+  if (isNaN(age) || age < 18) return showToast("❌ Must be 18 years of age or older.", "error");
 
   // 🟢 1) إنشاء حساب جديد في Supabase Auth
   const { data: signupData, error: signupErr } = await supabaseClient.auth.signUp({
@@ -33,18 +33,18 @@ document.getElementById("guideForm").addEventListener("submit", async (e) => {
 
   if (signupErr) {
     if (signupErr.message.includes("already registered")) {
-      alert("⚠️ هذا البريد مسجّل مسبقًا. الرجاء تسجيل الدخول بدلًا من التسجيل.");
+      showToast("⚠️ This email address is already registered. Please log in instead of registering.", "error");
       window.location.href = "../login_guides/login_guides.html";
       return;
     }
-    alert("❌ خطأ أثناء التسجيل: " + signupErr.message);
+    showToast("❌ Error during recording: " + signupErr.message , "error");
     return;
   }
 
   const user = signupData.user;
   const guideId = user.id;
 
-  alert("✅ تم إنشاء الحساب! جاري رفع ملف الرخصة...");
+  showToast("✅ Operation completed successfully", "success");
 
   // 🟢 2) رفع ملف الرخصة إلى Storage (bucket: guides)
   const cleanedFileName = licenseFile.name
@@ -58,7 +58,7 @@ document.getElementById("guideForm").addEventListener("submit", async (e) => {
     .upload(path, licenseFile);
 
   if (uploadErr) {
-    alert("❌ رفع الرخصة فشل: " + uploadErr.message);
+    showToast("❌ License upload failed: " + uploadErr.message, "error");
     return;
   }
 
@@ -81,7 +81,7 @@ document.getElementById("guideForm").addEventListener("submit", async (e) => {
   ]);
 
   if (insertErr) {
-    alert("❌ فشل إدخال بيانات المرشد: " + insertErr.message);
+    showToast("❌ Failed to insert guide data: " + insertErr.message, "error");
     return;
   }
 
@@ -97,6 +97,6 @@ document.getElementById("guideForm").addEventListener("submit", async (e) => {
   if (metaErr) console.warn("⚠️ تحديث metadata فشل:", metaErr.message);
 
   // 🟢 إشعار المستخدم
-  alert("✅ تم إرسال طلبك! سيتم مراجعته من قبل الإدارة خلال فترة قصيرة.");
+  showToast("✅ Operation completed successfully", "success");
   window.location.href = "../guides/pending.html";
 });

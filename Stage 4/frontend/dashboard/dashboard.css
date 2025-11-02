@@ -165,3 +165,70 @@ h2 {
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
+
+/* ✅ تحسين مظهر جدول الأماكن */
+#placesTableWrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+#placesTableWrapper table {
+  min-width: 950px; /* يمنع تكتل الأعمدة ويخلي فيه سكرول عند الحاجة */
+}
+
+/* عمود الوصف (العمود الثالث) */
+#placesTableWrapper td:nth-child(3) {
+  max-width: 280px;
+  white-space: normal;
+  word-break: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;  /* ✅ كانت 1، خلّيناها 4 أسطر */
+  -webkit-box-orient: vertical;
+  text-align: left;
+}
+
+/* صورة المكان (العمود الرابع) */
+#placesTableWrapper td:nth-child(4) img {
+  width: 90px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* عمود الأزرار (الأخير) */
+#placesTableWrapper td:last-child {
+  min-width: 210px;
+  text-align: center;
+}
+
+#placesTableWrapper button {
+  transition: transform 0.15s ease;
+}
+#placesTableWrapper button:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ أزرار المحرر */
+.desc-btn {
+  background: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+.desc-btn:hover {
+  background: #eaeaea;
+  transform: scale(1.05);
+}
+
+.desc-btn:last-child {
+  background: #d0b1f1;
+  color: white;
+  font-weight: 600;
+}
+.desc-btn:last-child:hover {
+  background: #b694e0;
+}

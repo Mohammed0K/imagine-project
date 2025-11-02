@@ -1,0 +1,73 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+:root{
+  --olive:#556b2f;
+  --cream:#fffdf8;
+  --ink:#222;
+}
+
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:"Inter", sans-serif;
+  margin:0;
+}
+
+/* Page Layout */
+.about-section{
+  max-width:900px;
+  margin:70px auto;
+  padding:0 20px;
+  line-height:1.9;
+}
+
+/* Title */
+.about-section h1{
+  color:var(--olive);
+  font-size:34px;
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+/* Paragraphs */
+.about-section p{
+  font-size:17px;
+  margin-bottom:18px;
+}
+
+/* Highlight Box */
+.highlight-box{
+  background:#f8f5ea;
+  border-left:4px solid var(--olive);
+  padding:14px 18px;
+  margin:26px 0;
+  border-radius:6px;
+  font-size:16px;
+  color:#444;
+}
+
+/* Tagline */
+.signature{
+  font-size:18px;
+  font-weight:600;
+  color:var(--olive);
+  margin-top:20px;
+}
+
+/* Footer */
+.footer {
+  background: var(--olive);
+  color: #fff;
+  text-align: center;
+  padding: 18px 0;
+  margin-top: auto; /* ✅ يخليها تنزل تحت */
+  font-size: 15px;
+}
+

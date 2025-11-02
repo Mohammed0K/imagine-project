@@ -94,7 +94,7 @@ nav a:hover {
 .hero-content {
   position: relative;
   z-index: 10;
-  max-width: 700px;
+  max-width: none;
   padding: 20px;
 }
 

@@ -2,63 +2,165 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Guide Details | Imagine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guide Booking | IMAGINE</title>
 
-  <!-- Shared navbar styles -->
+  <!-- Inter (Figma-like) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Shared -->
   <link rel="stylesheet" href="../shared/navbar.css" />
-  <!-- Page-only styles -->
-  <link rel="stylesheet" href="../guides/guide-details.css" />
-</head>
+  <link rel="stylesheet" href="../shared/ui.css" />
 
-<body>
-  <!-- Navbar (loaded via navbar.js) -->
-  <div id="navbar"></div>
+  <!-- Page -->
+  <link rel="stylesheet" href="guide-details.css" />
 
-  <!-- Page content (use page-container instead of container to avoid affecting navbar) -->
-  <div class="page-container">
-    <section id="guide-info" class="info-card"></section>
-    <section id="place-info" class="info-card"></section>
-
-    <section id="booking-section" class="booking-card">
-      <h2>Book This Guide</h2>
-      <form id="bookingForm" class="booking-form">
-        <div class="form-group">
-          <label for="numGuests">Number of Guests</label>
-          <input type="number" id="numGuests" min="1" max="15" value="1" required />
-        </div>
-
-        <div class="form-group">
-          <label for="startDate">Choose a Date</label>
-          <input type="date" id="startDate" required />
-        </div>
-
-        <button type="submit" id="bookBtn" class="book-btn">Book Now</button>
-      </form>
-    </section>
-  </div>
-
-  <!-- Success Modal -->
-  <div id="successModal" class="modal">
-    <div class="modal-content">
-      <h2>✅ Request Sent!</h2>
-      <p>Your booking request has been sent to the guide.<br>
-      You’ll be notified once it’s approved.</p>
-      <button id="goToBookingsBtn">Go to My Bookings</button>
-    </div>
-  </div>
-
-  
-
-  <script src="../shared/navbar.js"></script>
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../supabase/supabaseClient.js"></script>
-  <script src="guide-details.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar"></div>
 
-   <!-- ⚓ Footer -->
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__overlay">
+      <div class="hero__content">
+        <h1 id="placeTitle">Loading…</h1>
+        <p id="placeDesc" class="hero__desc"></p>
+        <p class="hero__loc"><svg viewBox="0 0 24 24" class="ico"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/></svg><span id="placeCity">—</span></p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Guide card -->
+    <section id="guideCard" class="guide"></section>
+
+    <!-- Booking + Pricing -->
+    <section class="grid">
+      <!-- Left: booking details -->
+      <div class="booking">
+        <div class="card-head">
+          <h3>Booking Details</h3>
+          <p>Select your preferred date, time and language</p>
+        </div>
+
+        <form id="bookingForm" class="form">
+          <div class="col2">
+            <div class="field">
+              <label for="dateInput">Date</label>
+              <input type="date" id="dateInput" required />
+            </div>
+
+            <div class="field">
+              <label for="timeSlot">Time Slot</label>
+              <select id="timeSlot" required>
+                <option value="">Select time</option>
+                <option value="08:00">8:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="16:00">4:00 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col2">
+            <div class="field">
+              <label for="languageSelect">Language</label>
+              <select id="languageSelect" required></select>
+            </div>
+
+            <div class="field">
+              <label for="guestsInput">Guests</label>
+              <select id="guestsInput">
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="noteInput">Additional Notes</label>
+            <textarea id="noteInput" rows="3" placeholder="Anything you’d like to add?"></textarea>
+          </div>
+
+          <button type="submit" id="bookBtn" class="cta">
+            Confirm Booking
+          </button>
+        </form>
+      </div>
+
+      <!-- Right: pricing -->
+      <aside class="price">
+        <div class="card-head">
+          <h3>Price Summary</h3>
+          <p>Review your booking cost</p>
+        </div>
+
+        <div class="price__box">
+          <div class="row">
+            <span>Price per guest</span>
+            <span id="ppg">SAR 250</span>
+          </div>
+          <div class="row">
+            <span id="guestsLabel">1 guest</span>
+            <span id="baseTotal">SAR 250.00</span>
+          </div>
+          <div class="row">
+            <span>Service fee (5%)</span>
+            <span id="fee">SAR 12.50</span>
+          </div>
+          <hr/>
+          <div class="row total">
+            <span>Total Amount <small>Including all fees</small></span>
+            <strong id="grand">SAR 262.50</strong>
+          </div>
+        </div>
+
+        <div class="includes">
+          <div class="inc-badge">✓</div>
+          <h4>What’s included</h4>
+          <ul>
+            <li>Professional tour guide</li>
+            <li>All entrance fees</li>
+            <li>Transportation to site</li>
+            <li>Bottled water & snacks</li>
+          </ul>
+          <p class="muted">Free cancellation up to 24 hours before the tour starts</p>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Help -->
+    <section class="help">
+      <h3>Need Help?</h3>
+      <div class="help__grid">
+        <div class="help__card">
+          <div>
+            <p>Call us</p>
+            <a href="tel:+966123456789">+966 12 345 6789</a>
+          </div>
+        </div>
+        <div class="help__card">
+          <div>
+            <p>Email us</p>
+            <a href="mailto:bookings@imagine.sa">bookings@imagine.sa</a>
+          </div>
+        </div>
+      </div>
+      <p class="help__note">Available 24/7 to assist with your booking</p>
+    </section>
+  </main>
+
   <footer class="footer">
     <p>© 2025 Imagine Project</p>
   </footer>
-  
+
+  <!-- Scripts -->
+  <script src="../shared/navbar.js"></script>
+  <script src="guide-details.js"></script>
+  <script src="../shared/ui.js"></script>
 </body>
 </html>

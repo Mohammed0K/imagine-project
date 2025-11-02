@@ -1,4 +1,4 @@
-document.getElementById("contactForm").addEventListener("submit", (e) => {
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const name = document.getElementById("name").value.trim();
@@ -6,11 +6,21 @@ document.getElementById("contactForm").addEventListener("submit", (e) => {
   const message = document.getElementById("message").value.trim();
 
   if (!name || !email || !message) {
-    alert("⚠️ Please fill in all fields.");
+    showToast("⚠️ Please fill in all fields.", "error");
     return;
   }
 
-  // مؤقتًا نعرض رسالة نجاح
-  alert(`✅ Thank you, ${name}! Your message has been sent.`);
+  // ✅ حفظ البيانات في Supabase
+  const { error } = await supabaseClient
+    .from("contact_messages")
+    .insert([{ full_name: name, email, message }]);
+
+  if (error) {
+    showToast("❌ Failed to send message, try again.", "error");
+    console.error(error);
+    return;
+  }
+
+  showToast("✅ Message sent successfully!", "success");
   document.getElementById("contactForm").reset();
 });

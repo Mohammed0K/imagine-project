@@ -6,7 +6,7 @@ document.getElementById("guideLoginForm").addEventListener("submit", async (e) =
   const password = document.getElementById("password").value.trim();
 
   if (!email || !password) {
-    alert("⚠️ Please enter both email and password.");
+    showToast("⚠️ Please enter both email and password.", "error");
     return;
   }
 
@@ -18,7 +18,7 @@ document.getElementById("guideLoginForm").addEventListener("submit", async (e) =
     });
 
     if (error || !data.user) {
-      alert("❌ Invalid email or password, or account not found. Please register first.");
+      showToast("❌ Invalid email or password, or account not found. Please register first.", "error");
       return (window.location.href = "../register_guides/register_guides.html");
     }
 
@@ -39,24 +39,24 @@ document.getElementById("guideLoginForm").addEventListener("submit", async (e) =
 
     // 🕒 Pending approval
     if (guide.status === "pending") {
-      alert("⏳ Your account is still pending admin approval. You will be logged out for now.");
+      showToast("⏳ Your account is still pending admin approval. You will be logged out for now.", "info");
       await supabaseClient.auth.signOut();
       return (window.location.href = "../guides/pending.html");
     }
 
     // ❌ Rejected account
     if (guide.status === "rejected") {
-      alert("❌ Your application has been rejected. Please register again.");
+      showToast("❌ Your application has been rejected. Please register again.", "error");
       await supabaseClient.auth.signOut();
       return (window.location.href = "../register_guides/register_guides.html");
     }
 
     // ✅ Approved → Redirect to dashboard
-    alert("✅ Login successful! Welcome to your guide dashboard.");
+    showToast("✅ Operation completed successfully", "success");
     window.location.href = "../dashboard_guides/dashboard_guides.html";
 
   } catch (err) {
     console.error("Unexpected error:", err);
-    alert("❌ Something went wrong. Please try again later.");
+    showToast("❌ Something went wrong. Please try again later.", "error");
   }
 });
