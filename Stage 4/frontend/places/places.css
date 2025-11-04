@@ -301,6 +301,64 @@ html, body { margin: 0 !important; padding: 0 !important; width: 100%; overflow-
   font-weight: 600;
 }
 
+
+/* =========================================
+   ✅ SKELETON GUIDE CARD (Modal)
+   ========================================= */
+.skeleton-guide {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-guide-img {
+  width: 100%;
+  height: 220px;
+  background: #e6e6e6;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-guide-line {
+  background: #e6e6e6;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-guide-line.name { height: 16px; width: 60%; }
+.skeleton-guide-line.city { height: 14px; width: 40%; }
+.skeleton-guide-line.small { height: 14px; width: 70%; }
+
+.skeleton-guide-btn {
+  height: 36px;
+  width: 100%;
+  border-radius: 10px;
+  background: #e6e6e6;
+  margin-top: 15px;
+}
+
+/* ✨ Shimmer Effect */
+.skeleton-guide-img::after,
+.skeleton-guide-line::after,
+.skeleton-guide-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #ffffff60, transparent);
+  animation: shimmerGuide 1.6s infinite;
+}
+
+@keyframes shimmerGuide {
+  0% { left: -120%; }
+  100% { left: 120%; }
+}
+
 /* ⭐ التقييم */
 .rating-row {
   display: flex;
@@ -326,7 +384,6 @@ html, body { margin: 0 !important; padding: 0 !important; width: 100%; overflow-
   line-height: 1.5;
   margin-bottom: 12px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -584,3 +641,57 @@ html, body { margin: 0 !important; padding: 0 !important; width: 100%; overflow-
   text-decoration: underline;
 }
 
+/* =========================================
+   ✅ SKELETON LOADER FOR PLACES CARDS
+   ========================================= */
+.place-skeleton-card {
+  background: #fff;
+  border-radius: 14px;
+  height: 420px;
+  box-shadow: 0 3px 12px rgba(5,5,5,0.15);
+  overflow: hidden;
+  position: relative;
+}
+
+.place-skeleton-card::before {
+  content: "";
+  display: block;
+  height: 240px;
+  background: #e6e6e6;
+}
+
+.place-skeleton-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -120%;
+  width: 120%; height: 100%;
+  background: linear-gradient(90deg, transparent, #ffffff70, transparent);
+  animation: shimmerPlaces 1.5s infinite;
+}
+
+@keyframes shimmerPlaces {
+  0% { left: -120%; }
+  100% { left: 120%; }
+}
+
+/* =========================
+   ✅ LANG TAG STYLE (Same as Guides Page)
+   ========================= */
+.guide-langs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.lang-tag {
+  background: #eef4e5;
+  color: #556b2f;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #d6dfcc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

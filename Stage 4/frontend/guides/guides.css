@@ -1,4 +1,3 @@
-
 /* ===== General ===== */
 * {
   margin: 0;
@@ -78,21 +77,27 @@ body {
 /* ===== Guides Grid ===== */
 .guides-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px; /* ↓ ↓ ↓ المسافة الجديدة */
   justify-content: center;
   align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* ===== Guide Card ===== */
+
+/* ===== Guide Card - محسّن ===== */
 .guide-card {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 16px;
-  padding: 24px;
+  padding: 22px 20px 20px; /* ⬅️ زودنا المسافة تحت */
   text-align: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .guide-card:hover {
@@ -100,42 +105,112 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* 🔥 الصورة تاخذ العرض كامل من الأعلى - محسّنة */
 .guide-card img {
-  width: 200px;
-  height: 200px;
-  border-radius: 12px;
-  object-fit: cover;
-  margin-bottom: 15px;
- border: 1px solid #ddd;
+  width: 100%;
+  height: 300px; /* ⬅️ كان 260 الآن أطول */
+  object-fit: cover; /* ⬅️ يضمن أن الوجه واضح وما تتمدد الصورة */
+  object-position: center 20%; /* ⬅️ يركز الصورة على الوجه */
+  border-radius: 10px;
+  margin-bottom: 14px;
+  background: #f3f3f3;
+}
+
+
+
+.guide-card:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.15) contrast(1.18) saturate(1.15);
+}
+
+
+.guide-card:hover img {
+  transform: scale(1.05);
+}
+
+/* إضافة overlay خفيف للصورة */
+.guide-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s, box-shadow 0.25s;
+  max-width: 420px; /* ✅ الكارد صار أوسع */
+  margin: 0 auto;   /* لتوسيطه داخل الـ grid */
+}
+
+
+.guide-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  border-color: #7a9163;
+}
+
+/* المحتوى أسفل الصورة */
+.guide-card-content {
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: left;
+  background: #fff;
 }
 
 .guide-card h3 {
   color: #333;
-  font-size: 1.2rem;
-  margin-bottom: 4px;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  text-align: left;
+  font-weight: 600;
 }
 
 .guide-card .region {
-  font-size: 0.9rem;
-  color: #777;
-  margin-bottom: 10px;
+  display: none;
 }
 
 .guide-card .languages {
   color: #556b2f;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  text-align: left;
 }
 
 .guide-card .rating {
-  color: #f4b400;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.guide-card .rating .star-icon {
+  color: #f4b400;
+}
+
+.guide-card .rating .rating-value {
+  color: #333;
+  font-weight: 600;
+}
+
+.guide-card .rating .no-rating-badge {
+  background: #e0e0e0;
+  color: #666;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .guide-card p {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #555;
   line-height: 1.4;
+  margin-bottom: 12px;
+  flex-grow: 1;
+  text-align: left;
 }
 
 .guide-card .reviews {
@@ -208,19 +283,22 @@ body {
 }
 
 .book-btn {
-  background: #7a9163;
+  background: linear-gradient(90deg, #7a9163, #9bb56d);
   color: white;
   border: none;
-  border-radius: 10px;
-  padding: 12px;
+  border-radius: 8px;
+  padding: 8px 16px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
-  margin-top: 10px;
+  font-size: 0.85rem;
+  margin: 0 16px 16px 16px;
 }
 
 .book-btn:hover {
   background: #6a8155;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(122, 145, 99, 0.3);
 }
 
 /* ==== Modal Adjustment ==== */
@@ -237,6 +315,11 @@ body {
   backdrop-filter: blur(6px);
   animation: fadeIn 0.3s ease;
   padding: 40px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 #placesModal .bg-white {
@@ -249,6 +332,10 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
   padding: 24px;
   position: relative;
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* زر الإغلاق */
@@ -293,6 +380,8 @@ body {
   gap: 20px;
   justify-content: center;
   padding: 10px 5px 20px;
+  overflow-y: auto;
+  max-height: calc(85vh - 140px);
 }
 
 /* كارت المكان */
@@ -303,6 +392,7 @@ body {
   overflow: hidden;
   transition: all 0.25s ease;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  padding: 0;
 }
 .place-card:hover {
   transform: translateY(-4px);
@@ -325,29 +415,18 @@ body {
   font-weight: 600;
   font-size: 1.05rem;
   margin-top: 10px;
+  padding: 0 10px;
 }
 .place-city {
   color: #777;
   font-size: 0.9rem;
   margin: 3px 0 10px;
+  padding: 0 10px;
 }
 
 /* زر التفاصيل */
-.book-btn {
-  background: linear-gradient(90deg, #7a9163, #9bb56d);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.book-btn:hover {
-  background: #6c8155;
-  transform: scale(1.05);
-  box-shadow: 0 3px 6px rgba(122, 145, 99, 0.35);
+.place-card .book-btn {
+  margin: 0 10px 10px 10px;
 }
 
 /* الحركة عند الفتح */
@@ -362,82 +441,238 @@ body {
   }
 }
 
-.book-btn {
-  background: linear-gradient(90deg, #7a9163, #9bb56d);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 18px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 0.3px;
-  transition: all 0.3s ease;
-}
-.book-btn:hover {
-  background: #6b8152;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(122, 145, 99, 0.3);
-}
-
 .hidden {
   display: none !important;
 }
 
-/* ===== تحسين مظهر صور الأماكن داخل البطاقات ===== */
-.place-card {
-  padding: 0; /* 🔹 نحذف الحواف الداخلية عشان الصورة تبدأ من الأعلى تمامًا */
-  overflow: hidden;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
-}
-
-.place-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* 🔹 الصورة تاخذ العرض كامل وتبدأ من الأعلى مباشرة */
-.place-card img {
-  display: block;
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  margin: 0;
-  border: none;
-  border-radius: 0; /* نحذف الزوايا */
-}
-
-/* 🔹 نضبط النصوص أسفل الصورة */
-.place-card .place-name,
-.place-card .place-city {
-  padding: 0 10px;
-}
-
-.place-card .place-name {
-  color: #4f6033;
-  font-weight: 600;
-  font-size: 1.05rem;
-  margin-top: 10px;
-}
-
-.place-card .place-city {
-  color: #777;
-  font-size: 0.9rem;
-  margin: 3px 0 10px;
-}
-
-/* 🔹 الزر يجي بأسفل البطاقة */
-.place-card .book-btn {
-  margin-bottom: 10px;
-}
-
 .bio {
   color: #555;
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  margin-bottom: 14px;
+
+  /* ✅ عرض 4 أسطر فقط */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
+.languages i {
+  color: #556b2f;
+  font-size: 1rem;
+  margin-right: 6px;
+}
+
+.languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.lang-tag {
+  background: #eef4e5;
+  color: #556b2f;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #d6dfcc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Skeleton Loader */
+.guide-skeleton {
+  height: 300px;
+  border-radius: 16px;
+  background: #e8e8e8;
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #ffffff88, transparent);
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* =========================
+   SKELETON LOADER (FULL CARD)
+   ========================= */
+.skeleton-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+
+.skeleton-image {
+  height: 220px;
+  background: #e6e6e6;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-text,
+.skeleton-line,
+.skeleton-button {
+  background: #e6e6e6;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-content {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* خط الاسم */
+.skeleton-name {
+  width: 60%;
+  height: 18px;
+}
+
+/* اللغات */
+.skeleton-tags {
+  display: flex;
+  gap: 6px;
+}
+.skeleton-tag {
+  width: 40px;
+  height: 18px;
+}
+
+/* وصف */
+.skeleton-line {
+  height: 12px;
+  width: 100%;
+}
+
+/* زر */
+.skeleton-button {
+  margin-top: 10px;
+  height: 34px;
+  border-radius: 8px;
+}
+
+/* تأثير اللمعة */
+.skeleton-image::after,
+.skeleton-line::after,
+.skeleton-name::after,
+.skeleton-tag::after,
+.skeleton-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, #ffffff60, transparent);
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* =======================
+   SKELETON PLACE CARD
+   ======================= */
+
+.skeleton-place {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-img {
+  width: 100%;
+  height: 160px;
+  background: #e6e6e6;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-text1,
+.skeleton-text2,
+.skeleton-btn {
+  background: #e6e6e6;
+  border-radius: 8px;
+  margin: 8px 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-text1 {
+  height: 16px;
+  width: 60%;
+  margin-top: 12px;
+}
+
+.skeleton-text2 {
+  height: 14px;
+  width: 40%;
+  margin-top: 4px;
+}
+
+.skeleton-btn {
+  height: 32px;
+  width: calc(100% - 20px);
+  margin-top: 14px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+
+/* ✨ تأثير اللمعة */
+.skeleton-img::after,
+.skeleton-text1::after,
+.skeleton-text2::after,
+.skeleton-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #ffffff70, transparent);
+  animation: shimmerPlace 1.6s infinite;
+}
+
+@keyframes shimmerPlace {
+  0% { left: -120%; }
+  100% { left: 120%; }
+}
+
+.badge-new {
+  display: inline-block;
+  background: linear-gradient(135deg, #d0b1f1, #c8a3e8);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(208, 177, 241, 0.3);
+  width: fit-content;
+}

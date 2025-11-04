@@ -20,15 +20,12 @@ function formatDescription(text, placeId) {
   `;
 }
 
-
-
 // ===============================
 // ✅ تحميل الأماكن
 // ===============================
-// ✅ تحميل الأماكن
+
 async function loadPlaces() {
   const container = document.getElementById("places-container");
-  container.innerHTML = "<p>Loading places...</p>";
 
   const { data: places, error } = await supabaseClient
     .from("places")
@@ -94,7 +91,25 @@ async function openGuidesModal(placeId, placeTitle) {
 
   title.textContent = `Available Guides for ${placeTitle}`;
   modal.classList.remove("hidden");
-  list.innerHTML = "<p>Loading guides...</p>";
+
+  // ✅ عرض Skeleton قبل تحميل المرشدين
+list.innerHTML = `
+  <div class="guide-card skeleton-guide">
+    <div class="skeleton-guide-img"></div>
+    <div class="skeleton-guide-line name"></div>
+    <div class="skeleton-guide-line city"></div>
+    <div class="skeleton-guide-line small"></div>
+    <div class="skeleton-guide-btn"></div>
+  </div>
+
+  <div class="guide-card skeleton-guide">
+    <div class="skeleton-guide-img"></div>
+    <div class="skeleton-guide-line name"></div>
+    <div class="skeleton-guide-line city"></div>
+    <div class="skeleton-guide-line small"></div>
+    <div class="skeleton-guide-btn"></div>
+  </div>
+`;
 
   const { data: placeTags, error: ptErr } = await supabaseClient
     .from("place_tags")
@@ -170,7 +185,29 @@ async function openGuidesModal(placeId, placeTitle) {
     const card = document.createElement("div");
     card.className = "guide-card";
 
-    const langs = (g.languages && g.languages.length) ? g.languages.join(", ") : "—";
+// ✅ خريطة اختصارات اللغات
+const languageMap = {
+  "Arabic": "AR",
+  "English": "EN",
+  "French": "FR",
+  "Spanish": "ES",
+  "German": "DE",
+  "Chinese": "ZH",
+  "Japanese": "JA",
+  "Russian": "RU",
+  "Italian": "IT",
+  "Hindi": "HI"
+};
+
+// ✅ تحويل لغات المرشد إلى اختصارات
+const langs = (g.languages && g.languages.length)
+  ? g.languages.map(l => languageMap[l] || l)
+  : [];
+
+// ✅ إنشاء شكل التاقات
+const languagesHTML = langs.length
+  ? langs.map(code => `<span class="lang-tag">${code}</span>`).join("")
+  : `<span class="lang-tag">—</span>`;
     const rating = avgRatings[g.id] ? avgRatings[g.id].toFixed(1) : "—";
     const stars = rating !== "—" ? "⭐ " + rating : "⭐ —";
 
@@ -181,8 +218,7 @@ async function openGuidesModal(placeId, placeTitle) {
         ${rating !== "—" 
       ? `<div class="rating-row"><i class="fa-solid fa-star"></i><span>${rating}</span></div>` 
       : `<span class="badge-new">New</span>`}
-          <div class="guide-langs"><b>Languages:</b> ${escapeHtml(langs)}</div>
-         
+         <div class="guide-langs">${languagesHTML}</div>       
           <p class="guide-bio text-gray-600 text-sm mt-2">${g.bio ? escapeHtml(g.bio.substring(0, 100)) + "..." : "No bio available."}</p>
           <button class="book-btn mt-3" onclick="goToGuideDetails('${g.id}','${placeId}')">Book Now</button>
         `;
@@ -354,6 +390,7 @@ function openLightbox(src) {
   img.src = src;
   lb.classList.remove("hidden");
   document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
 }
 function closeLightbox() {
   const lb = document.getElementById("lightbox");
