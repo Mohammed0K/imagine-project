@@ -228,33 +228,47 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
     }
   }
 
-  const avatarFile = document.getElementById("avatarFile").files[0];
-  let avatar_url = null;
-  if (avatarFile) {
-    const cleanedName = avatarFile.name.replace(/[^a-zA-Z0-9.\-_]/g, "-");
-    const path = `guides/${Date.now()}_${cleanedName}`;
-    const { error: uploadAvatarErr } = await supabaseClient.storage
-      .from("guides")
-      .upload(path, avatarFile, { upsert: true });
-    if (!uploadAvatarErr) {
-      const { data: avatarPublic } = supabaseClient.storage.from("guides").getPublicUrl(path);
-      avatar_url = avatarPublic.publicUrl;
-    }
-  }
+ const avatarFile = document.getElementById("avatarFile").files[0];
+let avatar_url = undefined; // 👈 لاحظ: لا نضع null
 
-  const { error } = await supabaseClient
+if (avatarFile) {
+  const cleanedName = avatarFile.name.replace(/[^a-zA-Z0-9.\-_]/g, "-");
+  const path = `guides/${Date.now()}_${cleanedName}`;
+
+  const { error: uploadAvatarErr } = await supabaseClient.storage
     .from("guides")
-    .update({
-      full_name,
-      age: isNaN(age) ? null : age,
-      license_number,
-      license_url,
-      avatar_url,
-      bio,
-      languages: selectedLangs,
-      phone, // ✅ جديد
-    })
-    .eq("id", user.id);
+    .upload(path, avatarFile, { upsert: true });
+
+  if (!uploadAvatarErr) {
+    const { data: avatarPublic } = supabaseClient.storage.from("guides").getPublicUrl(path);
+    avatar_url = avatarPublic.publicUrl; // 👈 فقط هنا نحدده
+  }
+}
+
+const updateData = {
+  full_name,
+  age: isNaN(age) ? null : age,
+  license_number,
+  bio,
+  languages: selectedLangs,
+  phone,
+};
+
+// إذا رفع صورة → نضيفها
+if (avatar_url !== undefined) {
+  updateData.avatar_url = avatar_url;
+}
+
+// إذا رفع رخصة → نضيفها
+if (license_url !== null) {
+  updateData.license_url = license_url;
+}
+
+await supabaseClient
+  .from("guides")
+  .update(updateData)
+  .eq("id", user.id);
+
 
   await saveSelectedRegions(user.id);
 
@@ -328,16 +342,16 @@ async function loadRequests(guideId) {
       status,
       start_at,
       num_guests,
+      language,
       admin_note,
       profiles(full_name, phone, email),
-      places(title, city)
+      places(title, city, image_url)
     `)
     .eq("guide_id", guideId)
     .in("status", ["pending", "paused"])
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("❌ Error loading requests:", error);
     container.innerHTML = `<p class="text-red-600">Failed to load requests.</p>`;
     return;
   }
@@ -351,43 +365,58 @@ async function loadRequests(guideId) {
 
   data.forEach((b) => {
     const isPaused = b.status === "paused";
+    const dateTime = new Date(b.start_at);
+    const dateStr = dateTime.toLocaleDateString();
+    const timeStr = dateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
     const card = document.createElement("div");
-    card.className =
-      "border border-gray-300 rounded-lg p-4 bg-white flex justify-between items-center mb-3";
-    card.setAttribute("data-id", b.id);
+    card.className = isPaused ? "request-card paused-card" : "request-card";
 
     card.innerHTML = `
-      <div>
-        <p class="font-semibold text-[#556b2f]">${b.profiles?.full_name || "Unknown Tourist"}</p>
-        <p class="text-sm text-gray-600">Place: ${b.places?.title || "—"}</p>
-        <p class="text-sm">Guests: ${b.num_guests || 1}</p>
-        <p class="text-sm">Date: ${new Date(b.start_at).toLocaleDateString()}</p>
-        <p class="text-sm text-gray-700">Phone: ${b.profiles?.phone || "—"}</p>
-        ${b.admin_note ? `<p class="text-sm text-red-600 font-semibold mt-1">⚠️ Admin Note: ${escapeHtml(b.admin_note)}</p>` : ""}
-        ${isPaused ? `<p class="text-sm text-yellow-700 font-semibold mt-1">⏸️ Booking Paused by Admin</p>` : ""}
+      <div class="request-img-wrap">
+        <img src="${b.places?.image_url || '../assets/placeholder.jpg'}" class="request-card-img" />
       </div>
-      <div class="flex gap-3">
-        ${
-          isPaused
-            ? `<span class="text-gray-500 italic text-sm">No actions available</span>`
-            : `
-              <button onclick="updateBooking('${b.id}','approved')" class="text-green-600 hover:text-green-800">
-                <i class="fa-solid fa-check"></i> Approve
-              </button>
-              <button onclick="updateBooking('${b.id}','rejected')" class="text-red-600 hover:text-red-800">
-                <i class="fa-solid fa-xmark"></i> Reject
-              </button>
-            `
-        }
+
+      <div class="request-info">
+        <h3>${b.places?.title}</h3>
+        <p class="request-sub"><i class="fa-solid fa-location-dot"></i> ${b.places?.city} · ${dateStr}</p>
+
+        <div class="request-details">
+          <p><strong>Tourist:</strong> ${b.profiles?.full_name}</p>
+          <p><strong>Phone:</strong> ${b.profiles?.phone}</p>
+          <p><strong>Guests:</strong> ${b.num_guests}</p>
+          <p><strong>Language:</strong> ${b.language}</p>
+          <p><strong>Time:</strong> ${timeStr}</p>
+
+          ${b.admin_note ? `<p class="admin-note"><i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(b.admin_note)}</p>` : ""}
+        </div>
+
+        <div class="request-actions">
+          ${
+            isPaused
+              ? `<div class="paused-note"><i class="fa-solid fa-pause-circle"></i> Paused by Admin</div>`
+              : `
+                <button class="btn-approve" onclick="updateBooking('${b.id}','approved')">
+                  <i class="fa-solid fa-check"></i> Approve
+                </button>
+                <button class="btn-reject" onclick="updateBooking('${b.id}','rejected')">
+                  <i class="fa-solid fa-xmark"></i> Reject
+                </button>
+              `
+          }
+        </div>
       </div>
     `;
+
     container.appendChild(card);
   });
 }
 
-// ✅ Update Booking Status (منع تعديل الحجوزات الموقوفة)
+
+// ✅ Update Booking Status (ويشمل التحديث بعد إكمال الطلب)
 async function updateBooking(bookingId, newStatus) {
   try {
+
     const { data: current, error: checkErr } = await supabaseClient
       .from("bookings")
       .select("status, admin_note")
@@ -415,21 +444,28 @@ async function updateBooking(bookingId, newStatus) {
       return;
     }
 
-    const card = document.querySelector(`[data-id='${bookingId}']`);
-    if (card) card.remove();
-
     showToast(
-      `✅ Booking ${newStatus === "approved" ? "approved" : "rejected"} successfully!`,
-      "success"
+      newStatus === "completed"
+        ? "✅ Trip marked as completed!"
+        : newStatus === "approved"
+        ? "✅ Booking approved!"
+        : "❌ Booking rejected!",
+      newStatus === "rejected" ? "error" : "success"
     );
 
+    // ✅ تحديث القوائم مباشرة بدون ريفرش
     const { data: { user } } = await supabaseClient.auth.getUser();
-    loadGuideOverview(user.id);
+    await loadGuideOverview(user.id);
+    await loadRequests(user.id);
+    await loadApprovedBookings(user.id);
+    await loadCompletedTrips(user.id);
+
   } catch (err) {
     console.error(err);
     showToast("❌ Unexpected error.", "error");
   }
 }
+
 
 // ✅ Complete Booking (مع التحقق من أن الطلب غير موقوف)
 async function markAsCompleted(bookingId) {
@@ -473,20 +509,29 @@ async function markAsCompleted(bookingId) {
   }
 }
 
-// ✅ Load Approved Bookings
+// ✅ Load Approved Bookings (موحّدة نفس Booking Requests تماماً)
 async function loadApprovedBookings(guideId) {
   const container = document.getElementById("approvedList");
   container.innerHTML = "<p>Loading...</p>";
 
   const { data, error } = await supabaseClient
     .from("bookings")
-    .select("id, start_at, profiles(full_name), places(title), status")
+    .select(`
+      id,
+      status,
+      start_at,
+      num_guests,
+      language,
+      admin_note,
+      profiles(full_name, phone, email),
+      places(title, city, image_url)
+    `)
     .eq("guide_id", guideId)
     .eq("status", "approved")
     .order("start_at", { ascending: false });
 
   if (error) {
-    container.innerHTML = `<p class="text-red-600">Error loading bookings.</p>`;
+    container.innerHTML = `<p class="text-red-600">Error loading approved bookings.</p>`;
     return;
   }
 
@@ -496,27 +541,56 @@ async function loadApprovedBookings(guideId) {
   }
 
   container.innerHTML = "";
+
   data.forEach((b) => {
+    const date = new Date(b.start_at);
+    const dateStr = date.toLocaleDateString();
+    const timeStr = date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+
     const card = document.createElement("div");
-    card.className = `
-      w-full max-w-sm bg-white border border-gray-200 rounded-2xl shadow-md p-5 
-      hover:shadow-lg transition-shadow duration-200
-    `;
+    card.className = "request-card";
+
     card.innerHTML = `
-      <div>
-        <p class="font-semibold text-[#556b2f]">${b.profiles?.full_name || "Unknown Tourist"}</p>
-        <p class="text-sm text-gray-600">Place: ${b.places?.title || "—"}</p>
-        <p class="text-sm">Date: ${new Date(b.start_at).toLocaleDateString()}</p>
+      <div class="request-img-wrap">
+        <img src="${b.places?.image_url || '../assets/placeholder.jpg'}"
+             class="request-card-img"
+             alt="${b.places?.title || 'Place'}" />
+
+        <!-- ✅ Badge نفس Requests -->
+        <span class="request-status status-approved">Approved</span>
       </div>
-      <div class="flex gap-3">
-        <button onclick="markAsCompleted('${b.id}')" class="text-blue-600 hover:text-blue-800">
-          <i class="fa-solid fa-flag-checkered"></i> Mark as Completed
-        </button>
+
+      <div class="request-info">
+        <h3>${b.places?.title || "Unknown Place"}</h3>
+        <p class="request-sub">
+          <i class="fa-solid fa-location-dot"></i>
+          ${b.places?.city || "—"} · ${dateStr}
+        </p>
+
+        <!-- ✅ نفس توزيع المعلومات تماماً -->
+        <div class="request-details">
+          <p><strong>Tourist:</strong> ${b.profiles?.full_name || "—"}</p>
+          <p><strong>Phone:</strong> ${b.profiles?.phone || "—"}</p>
+          <p><strong>Guests:</strong> ${b.num_guests || 1}</p>
+          <p><strong>Language:</strong> ${b.language || "—"}</p>
+          <p><strong>Time:</strong> ${timeStr}</p>
+          ${b.admin_note ? `<p class="admin-note">${escapeHtml(b.admin_note)}</p>` : ""}
+        </div>
+
+        <div class="request-actions">
+          <!-- ✅ زر إنهاء الرحلة -->
+          <button class="btn-approve" onclick="updateBooking('${b.id}', 'completed')">
+            <i class="fa-solid fa-check-circle"></i> Mark as Completed
+          </button>
+        </div>
       </div>
     `;
+
     container.appendChild(card);
   });
 }
+
+
 
 // ✅ Load Completed Trips
 async function loadCompletedTrips(guideId) {
@@ -540,8 +614,9 @@ async function loadCompletedTrips(guideId) {
       id,
       start_at,
       num_guests,
+      language,
       profiles(full_name, phone),
-      places(title, city),
+      places(title, city, image_url),
       reviews(rating, comment)
     `)
     .eq("guide_id", guideId)
@@ -563,7 +638,7 @@ async function loadCompletedTrips(guideId) {
 
   data.forEach((b) => {
     const rating = b.reviews?.rating ? `${b.reviews.rating}/5` : "—";
-    const comment = b.reviews?.comment ? escapeHtml(b.reviews.comment) : "";
+    const comment = b.reviews?.comment ? escapeHtml(b.reviews.comment) : "—";
 
     tbody.insertAdjacentHTML(
       "beforeend",
@@ -577,7 +652,7 @@ async function loadCompletedTrips(guideId) {
         <td>${rating}</td>
         <td>
           ${
-            comment
+            comment !== "—"
               ? `<button class="comment-btn" onclick="showCommentModal('${comment}')">
                    <i class="fa-solid fa-comment"></i> View
                  </button>`
@@ -585,10 +660,11 @@ async function loadCompletedTrips(guideId) {
           }
         </td>
       </tr>
-    `
+      `
     );
   });
 }
+
 
 
 
@@ -639,8 +715,3 @@ document.querySelectorAll(".side-btn").forEach((btn) => {
   });
 });
 
-// Logout Button Event Listener
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  await supabaseClient.auth.signOut();
-  window.location.href = "../login/login_guides.html";
-});

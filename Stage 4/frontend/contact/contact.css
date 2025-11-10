@@ -1,18 +1,20 @@
-/* ===== General ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
+/* ===== Base ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  background-color: #fffaf3;
+  background-color: #fffaf3; /* الكريم */
   color: #333;
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
-/* ===== Navbar ===== */
-.navbar {
+/* ===== Page Wrapper (avoids inline margin-top) ===== */
+.contact-page {
+  padding: 140px 20px 80px; /* يترك مساحة للـ navbar الثابت */
+  text-align: center;
+}
+
+/* ===== Optional Navbar skin (safe) ===== */
+.contact-page .navbar {
   position: fixed;
   width: 100%;
   top: 0;
@@ -21,145 +23,72 @@ body {
   border-bottom: 1px solid #ddd;
   z-index: 1000;
 }
-
-.navbar .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.contact-page .navbar .container {
+  display: flex; justify-content: space-between; align-items: center;
   padding: 14px 40px;
 }
 
-.logo {
-  color: #556b2f;
-  font-size: 1.8rem;
-  font-weight: 700;
+/* ===== Headings ===== */
+.contact-page .container { max-width: 700px; margin: 0 auto; }
+.contact-page h2 {
+  color: #556b2f; /* زيتي */
+  font-size: 2rem; margin-bottom: 10px;
+}
+.contact-page .subtitle {
+  color: #666; margin-bottom: 40px; font-size: 1rem;
 }
 
-.logo span {
-  color: #b8bfa5;
-}
-
-nav ul {
-  display: flex;
-  gap: 22px;
-  list-style: none;
-}
-
-nav a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-nav a.active,
-nav a:hover {
-  color: #7a9163;
-}
-
-.login-btn {
-  background: #7a9163;
-  color: white !important;
-  padding: 6px 14px;
-  border-radius: 6px;
-}
-
-/* ===== Contact Section ===== */
-.contact-section {
-  padding: 140px 20px 80px;
-  text-align: center;
-}
-
-.contact-section .container {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.contact-section h2 {
-  color: #556b2f;
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.contact-section .subtitle {
-  color: #666;
-  margin-bottom: 40px;
-  font-size: 1rem;
-}
-
+/* ===== Form ===== */
 form {
   text-align: left;
-  background: white;
+  background: #fff;
   padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+.hp-field { display: none !important; }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
+.form-group { margin-bottom: 20px; }
 .form-group label {
-  display: block;
-  color: #4f6033;
-  font-weight: 600;
-  margin-bottom: 6px;
+  display: block; color: #4f6033; font-weight: 600; margin-bottom: 6px;
 }
-
 .form-group input,
 .form-group textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 0.95rem;
+  width: 100%; padding: 12px; border: 1px solid #ccc;
+  border-radius: 10px; font-size: 0.95rem; background: #fff;
 }
-
 .form-group input:focus,
 .form-group textarea:focus {
-  outline: none;
-  border-color: #7a9163;
+  outline: none; border-color: #7a9163; box-shadow: 0 0 0 3px rgba(122,145,99,0.15);
 }
 
+/* ===== Button with progress ===== */
 .btn {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
   background: linear-gradient(90deg, #9bb56d, #7a9163);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 24px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
+  color: #fff; border: none; border-radius: 10px;
+  padding: 12px 24px; font-weight: 600; cursor: pointer;
+  transition: transform .2s ease; width: 100%;
 }
-
-.btn:hover {
-  transform: scale(1.03);
+.btn:hover { transform: scale(1.03); }
+.btn[disabled] { opacity: .7; cursor: not-allowed; }
+.btn-progress {
+  width: 18px; height: 18px; border: 2px solid #fff; border-top-color: transparent;
+  border-radius: 50%; margin-left: 10px; display: none; animation: spin 1s linear infinite;
 }
+.btn.loading .btn-progress { display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg);} }
 
 /* ===== Socials ===== */
 .socials {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 40px;
+  display: flex; justify-content: center; gap: 18px; margin-top: 40px;
 }
-
-.socials a {
-  color: #556b2f;
-  font-size: 1.4rem;
-  transition: 0.3s;
-}
-
-.socials a:hover {
-  color: #7a9163;
-}
+.socials a { color: #556b2f; font-size: 1.4rem; transition: .3s; }
+.socials a:hover { color: #7a9163; }
 
 /* ===== Footer ===== */
 .footer {
-  background: #4f6033;
-  color: white;
-  text-align: center;
-  padding: 25px;
-  font-size: 0.9rem;
-  margin-top: 80px;
+  background: #4f6033; color: #fff; text-align: center;
+  padding: 25px; font-size: .9rem; margin-top: 80px;
 }

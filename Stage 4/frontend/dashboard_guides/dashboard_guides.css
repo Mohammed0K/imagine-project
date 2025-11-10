@@ -258,37 +258,6 @@ main {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ====== Completed Trips & Approved Bookings Grid Layout ====== */
-#completedTrips,
-#approvedList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  justify-items: center;
-  align-items: start;
-  padding: 20px;
-  max-width: 1100px;
-  margin: 0 auto; /* ✅ يوسّط الشبكة في منتصف الصفحة */
-}
-
-/* كل بطاقة */
-#completedTrips .trip-card,
-#approvedList .trip-card {
-  width: 100%;
-  max-width: 320px;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
-  padding: 20px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-#completedTrips .trip-card:hover,
-#approvedList .trip-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
 
 /* العنوان والتاريخ */
 #completedTrips .trip-card h3 {
@@ -310,42 +279,7 @@ main {
   margin: 4px 0;
 }
 
-/* ===== Completed Trips Table ===== */
-.table-wrapper {
-  overflow-x: auto;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.completed-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-.completed-table thead {
-  background-color: #7a9163;
-  color: #fff;
-}
-.completed-table th,
-.completed-table td {
-  text-align: center;
-  padding: 12px 10px;
-  border-bottom: 1px solid #e5e5e5;
-  font-size: 0.95rem;
-}
-.completed-table th {
-  font-weight: 600;
-}
-.completed-table tbody tr:hover {
-  background-color: #f7f7f2;
-}
-.completed-table .loading,
-.completed-table .empty {
-  text-align: center;
-  color: #888;
-  font-weight: 500;
-}
+
 
 /* ===== Loading Spinner ===== */
 .loading-spinner {
@@ -453,4 +387,322 @@ td .absolute.hidden {
 td .absolute:not(.hidden) {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ===== Bigger Profile Form Layout (Added Manually) ===== */
+#section-profile form {
+  max-width: 900px !important; /* بدل 650px */
+  margin: 0 auto;
+  padding: 35px 45px;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+/* زيادة حجم الحقول */
+#section-profile input,
+#section-profile textarea,
+#section-profile select {
+  font-size: 1rem;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fffaf3;
+}
+
+/* زيادة مساحة النص */
+#section-profile textarea {
+  min-height: 160px;
+  line-height: 1.6;
+}
+
+/* زيادة المسافات بين العناصر */
+#section-profile .grid,
+#section-profile .form-group,
+#section-profile div {
+  margin-bottom: 14px;
+}
+
+/* تحسين زر الحفظ */
+#section-profile button[type="submit"] {
+  padding: 12px 28px;
+  font-size: 1rem;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #9bb56d, #7a9163);
+  color: white;
+  transition: 0.25s;
+}
+
+#section-profile button[type="submit"]:hover {
+  transform: scale(1.03);
+  background: linear-gradient(90deg, #7a9163, #556b2f);
+}
+
+/* ==== Unified Card Style for Requests & Approved ==== */
+.request-card {
+  display: flex;
+  align-items: stretch;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  transition: all .3s ease;
+  width: 100%;
+  max-width: 780px;
+
+  /* ✅ الحل */
+  min-height: 200px;
+  height: auto;
+}
+
+
+.request-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Image Container with Status Badge */
+.request-img-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 245px; /* ✅ عرض ثابت مثل The Red Sea */
+}
+
+.request-card-img {
+  width: 100%;
+  height: 100%; /* ✅ ملء كامل الارتفاع */
+  object-fit: cover;
+  display: block;
+}
+
+.request-status {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(87, 122, 58, 0.95);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.status-approved {
+  background: rgba(87, 122, 58, 0.95);
+}
+
+/* Info Section */
+.request-info {
+  padding: 16px 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden; /* ✅ منع التمدد */
+}
+
+.request-info h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #556b2f;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.request-sub {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.request-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 16px;
+  margin-bottom: 12px;
+  flex-grow: 0; /* ✅ عدم التمدد */
+}
+
+.request-details p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #444;
+  display: flex;
+  align-items: baseline;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.request-details p strong {
+  color: #556b2f;
+  font-weight: 600;
+  margin-right: 6px;
+  min-width: 65px;
+  flex-shrink: 0;
+}
+
+/* Actions Section */
+.request-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btn-approve,
+.btn-reject {
+  flex: 1;
+  padding: 9px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all .25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-approve {
+  background: linear-gradient(135deg, #7a9163, #556b2f);
+  color: white;
+  box-shadow: 0 3px 8px rgba(122, 145, 99, 0.3);
+}
+
+.btn-approve:hover {
+  background: linear-gradient(135deg, #556b2f, #3d4f23);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(122, 145, 99, 0.4);
+}
+
+.btn-reject {
+  background: #c94e4e;
+  color: white;
+  box-shadow: 0 3px 8px rgba(201, 78, 78, 0.3);
+}
+
+.btn-reject:hover {
+  background: #a63d3d;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(201, 78, 78, 0.4);
+}
+
+/* ===== Admin Note (Red Info Box) ===== */
+.admin-note {
+  grid-column: 1 / -1;
+  background: #ffecec;
+  border-left: 4px solid #d9534f;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #a94442;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== Paused State Box (Yellow) ===== */
+.paused-note {
+  width: 100%;
+  padding: 10px 14px;
+  background: #fff7d6;
+  border: 1px solid #e6c85b;
+  color: #8a7425;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ✅ حل مشكلة الفراغ بين ملاحظة الإدمن و Paused */
+.request-card.paused-card .request-details {
+  margin-bottom: 6px !important; /* تقليل المسافة */
+}
+
+.request-card.paused-card .paused-note {
+  margin-top: 0 !important; /* إزالة المسافة فوق الرسالة */
+}
+
+/* ===== Completed Trips Table Styling ===== */
+.completed-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  font-size: 0.95rem;
+}
+
+.completed-table thead th {
+  background: #556b2f;
+  color: white;
+  padding: 12px 14px;
+  font-weight: 600;
+  text-align: left;
+  border-radius: 8px 8px 0 0;
+}
+
+.completed-table tbody tr {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  transition: 0.25s;
+}
+
+.completed-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.completed-table tbody td {
+  padding: 12px 14px;
+  border-top: none;
+  border-bottom: 1px solid #eee;
+}
+
+.completed-table tbody tr td:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.completed-table tbody tr td:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+/* ===== View Comment Button ===== */
+.comment-btn {
+  background: #7a9163;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.comment-btn:hover {
+  background: #556b2f;
+  transform: translateY(-1px);
+}
+
+.comment-btn i {
+  font-size: 0.9rem;
 }

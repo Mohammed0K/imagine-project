@@ -103,9 +103,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     start_at: `${document.getElementById("dateInput").value}T${document.getElementById("timeSlot").value}`,
     num_guests: parseInt(document.getElementById("guestsInput").value||"1",10),
     status: "pending",
-    admin_note:
-      `Language: ${document.getElementById("languageSelect").value || "-"}\n`+
-      `Notes: ${document.getElementById("noteInput").value || "-"}`,
+    language: document.getElementById("languageSelect").value || null,
+    admin_note: document.getElementById("noteInput").value || null,
+
   };
 
   const { error } = await supabaseClient.from("bookings").insert([payload]);

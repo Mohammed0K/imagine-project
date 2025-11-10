@@ -9,6 +9,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     const html = await res.text();
     navbarContainer.innerHTML = html;
 
+     // ✅ منيو الجوال
+    const menuBtn = document.getElementById("menu-toggle");
+    const navMenu = document.getElementById("nav-links");
+    const overlay = document.getElementById("menu-overlay");
+
+if (menuBtn && navMenu && overlay) {
+  menuBtn.addEventListener("click", () => {
+    navMenu.classList.toggle("open");
+    overlay.classList.toggle("show");
+  });
+
+  overlay.addEventListener("click", () => {
+    navMenu.classList.remove("open");
+    overlay.classList.remove("show");
+  });
+}
     // Load Navbar CSS
     const cssLink = document.createElement("link");
     cssLink.rel = "stylesheet";
@@ -74,12 +90,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Guide pending logic
       let guide = null;
-try {
-  const { data, error } = await supabaseClient
-    .from("guides")
-    .select("status")
-    .eq("id", user.id)
-    .maybeSingle();
+  try {
+    const { data, error } = await supabaseClient
+      .from("guides")
+      .select("status")
+      .eq("id", user.id)
+      .maybeSingle();
 
   // بعض أنواع الأخطاء (مثل 406) تعتبر Not Acceptable فقط وليست فشل فعلي
   if (error && error.code !== "PGRST116" && error.message !== "406 Not Acceptable") {
@@ -130,4 +146,5 @@ if (guide?.status === "pending") {
   } catch (err) {
     console.error("❌ Navbar load failed:", err);
   }
+
 });

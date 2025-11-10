@@ -125,3 +125,10 @@ textarea{resize:vertical}
   .grid{grid-template-columns:1fr}
   .guide{flex-direction:column;text-align:center}
 }
+
+/* Make Total Amount text and subtext white */
+.row.total span,
+.row.total small {
+  color: #fff !important;
+  opacity: 1 !important;
+}

@@ -1,38 +1,53 @@
-/* ====== Navbar Unified Style (Final Fixed Version) ====== */
+/* ====== Navbar Unified Style ====== */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 64px; /* ارتفاع موحد */
+  height: 64px;
   background: rgba(255, 255, 255, 0.95);
   border-bottom: 1px solid #ddd;
   z-index: 1000;
   backdrop-filter: blur(10px);
 }
 
-/* حاوية داخلية */
+/* Container */
 .navbar .container {
   height: 64px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 40px;
-  width: 100%;              /* ✅ تمتد العرض الكامل */
-  max-width: none !important; /* ✅ تلغي أي max-width من Tailwind أو global */
-  margin: 0;                /* ✅ تضمن الالتصاق بالحواف */
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
-
 
 /* ===== Logo ===== */
 .logo {
   color: #556b2f;
   font-size: 1.8rem;
   font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  z-index: 2001; /* Above menu */
 }
 
 .logo span {
   color: #b8bfa5;
+}
+
+/* ===== Mobile Menu Toggle (Hidden on Desktop) ===== */
+.menu-toggle {
+  display: none;
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #556b2f;
+  z-index: 2001;
 }
 
 /* ===== Nav Links ===== */
@@ -40,6 +55,8 @@
   display: flex;
   gap: 25px;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
@@ -50,7 +67,7 @@
   transition: color 0.3s ease;
 }
 
-/* 💜 Hover تأثير خزامي */
+/* Hover Effect */
 .nav-links a::after {
   content: "";
   position: absolute;
@@ -70,7 +87,7 @@
   width: 100%;
 }
 
-/* 💜 Active Link */
+/* Active Link */
 .nav-links a.active {
   color: #b57edc;
   font-weight: 600;
@@ -118,7 +135,6 @@
   box-shadow: 0 0 0 transparent;
 }
 
-/* زر Login */
 .btn-login {
   background: #7a9163;
   color: white;
@@ -126,11 +142,10 @@
 
 .btn-login:hover {
   background: #556b2f;
-  box-shadow: 0 0 8px #b57edc7a; /* توهج خزامي */
+  box-shadow: 0 0 8px #b57edc7a;
   transform: scale(1.03);
 }
 
-/* زر Logout */
 .btn-logout {
   background: #e05b5b;
   color: white;
@@ -142,24 +157,82 @@
   transform: scale(1.03);
 }
 
-/* ===== Responsive ===== */
+/* ===== Responsive (Mobile) ===== */
 @media (max-width: 768px) {
+  .navbar .container {
+    padding: 0 20px;
+  }
+
+  /* Show mobile menu toggle */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* Hide nav links by default, show in sidebar */
   .nav-links {
+    position: fixed;
+    top: 64px;
+    right: -100%;
+    width: 280px;
+    height: calc(100vh - 64px);
+    background: #ffffff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px 25px;
+    gap: 20px;
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -3px 0 20px rgba(0,0,0,0.15);
+    z-index: 2000;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .nav-links a {
+    font-size: 18px;
+    width: 100%;
+    padding: 12px 0;
+    display: block;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links.open {
+    right: 0;
+  }
+
+  /* Overlay */
+  .menu-overlay {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 64px);
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+    z-index: 1500;
     display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .menu-overlay.show {
+    display: block;
+    opacity: 1;
   }
 }
 
-/* ===== Page Body Offset (عشان ما يغطي المحتوى) ===== */
+/* ===== Page Body Offset ===== */
 .has-navbar {
-  padding-top: 64px; /* 👈 يترك فراغ تحت النافبار */
+  padding-top: 64px;
 }
 
-header.navbar, .navbar, #navbar { width: 100%; }
-.navbar .container { max-width: 100%; width: 100%; margin: 0 auto; }
-body.has-navbar { padding-top: var(--navbar-height, 64px); }
+body.has-navbar {
+  padding-top: var(--navbar-height, 64px);
+}
 
-
-/* ===== 🌿 IMAGINE Navbar (Full Alignment Fix) ===== */
+/* ===== Additional Container Width Control ===== */
 header.navbar {
   width: 100%;
   background: #fff;
@@ -171,32 +244,20 @@ header.navbar {
 }
 
 header.navbar #navbar {
-  width: 95%;                /* بدلاً من max-width */
-  max-width: 1400px;         /* يعطي حرية أكبر للشاشات العريضة */
+  width: 95%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 25px;           /* قلل الحافة الجانبية */
+  padding: 0 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
+  height: 64px;
   box-sizing: border-box;
 }
 
-/* ضبط المسافات على الشاشات الصغيرة */
 @media (max-width: 768px) {
   header.navbar #navbar {
     width: 100%;
     padding: 0 15px;
   }
-}
-
-.navbar .container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
 }

@@ -1,15 +1,24 @@
 <nav class="navbar">
   <div class="container">
+    <!-- Logo - Always visible -->
     <a href="../home/home.html" class="logo">IMAGINE<span>.</span></a>
 
-    <ul class="nav-links">
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">☰</button>
+
+    <!-- Navigation Links -->
+    <ul class="nav-links" id="nav-links">
       <li><a href="../home/home.html">Home</a></li>
       <li><a href="../places/places.html">Places</a></li>
       <li><a href="../guides/guides.html">Guides</a></li>
       <li><a href="../contact/contact.html">Contact</a></li>
       <li><a href="../about/about.html">About</a></li>
     </ul>
+    
+    <!-- Mobile Overlay -->
+    <div class="menu-overlay" id="menu-overlay"></div>
 
+    <!-- Auth Section -->
     <div class="auth-section">
       <img id="user-avatar" class="avatar hidden" src="../assets/images/default.png" alt="User Avatar" />
       <button id="auth-btn" class="btn-login">Login</button>

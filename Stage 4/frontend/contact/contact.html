@@ -6,73 +6,60 @@
   <title>Contact Us | IMAGINE</title>
 
   <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="contact.css" />
+  <link rel="stylesheet" href="../shared/ui.css" />
+
 </head>
 
 <body>
   <!-- ✅ Unified Navbar -->
   <div id="navbar"></div>
 
-  <!-- Supabase & Navbar Scripts -->
+  <!-- Supabase & Navbar (needed before UI that depends on it) -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="../supabase/supabaseClient.js"></script>
   <script src="../shared/navbar.js"></script>
 
   <!-- 📩 Contact Section -->
-  <section class="contact-section" style="margin-top: 120px;">
+  <section class="contact-page">
     <div class="container">
       <h2>Get in Touch</h2>
       <p class="subtitle">
         We’d love to hear from you! Feel free to reach out for questions or partnerships.
       </p>
 
-      <form id="contactForm">
+      <form id="contactForm" novalidate>
+        <!-- honeypot (anti-spam) -->
+        <input type="text" id="website" name="website" autocomplete="off" tabindex="-1" aria-hidden="true" class="hp-field"/>
+
         <div class="form-group">
           <label for="name">Full Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter your name"
-            required
-          />
+          <input type="text" id="name" name="name" placeholder="Enter your name" required minlength="2" maxlength="80"/>
         </div>
 
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            required
-          />
+          <input type="email" id="email" name="email" placeholder="Enter your email" required maxlength="120" inputmode="email" />
         </div>
 
         <div class="form-group">
           <label for="message">Message</label>
-          <textarea
-            id="message"
-            name="message"
-            rows="5"
-            placeholder="Write your message..."
-            required
-          ></textarea>
+          <textarea id="message" name="message" rows="5" placeholder="Write your message..." required minlength="10" maxlength="1000"></textarea>
         </div>
 
-        <button type="submit" class="btn">Send Message</button>
+        <button type="submit" id="sendBtn" class="btn" aria-live="polite">
+          <span class="btn-text">Send Message</span>
+          <span class="btn-progress" aria-hidden="true"></span>
+        </button>
       </form>
 
       <div class="socials">
-        <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" title="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#" title="Instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" title="Twitter / X" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
       </div>
     </div>
   </section>
@@ -81,8 +68,9 @@
   <footer class="footer">
     <p>© 2025 Imagine Project — All rights reserved.</p>
   </footer>
-  <script src="../shared/ui.js"></script>
 
+  <!-- UI helpers then page script -->
+  <script src="../shared/ui.js"></script>
   <script src="contact.js"></script>
 </body>
 </html>

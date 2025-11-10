@@ -46,7 +46,10 @@ grid.innerHTML = "";
         <div class="rating">
           <span class="star-icon">⭐</span>
           <span class="rating-value">${avgRating}</span>
-          <span style="color: #999; font-size: 0.8rem;">(${ratings.length})</span>
+          <span class="reviews-count" onclick="openReviewsModal('${g.id}', ${avgRating}, ${ratings.length})">
+            (${ratings.length})
+          </span>
+
         </div>
       `;
     } else {
@@ -195,7 +198,7 @@ list.innerHTML = `
       <div class="place-name">${p.title}</div>
       <div class="place-city">${p.city || "—"}</div>
       <button class="book-btn" onclick="goToGuideDetails('${guideId}','${p.id}')">
-        Go to Details
+        Book Now
       </button>
     `;
     list.appendChild(card);
