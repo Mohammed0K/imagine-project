@@ -1,4 +1,4 @@
-console.log("✅ Places.js Loaded");
+console.log("Places.js Loaded");
 
 function formatDescription(text, placeId) {
   if (!text) return "No description available.";
@@ -21,7 +21,7 @@ function formatDescription(text, placeId) {
 }
 
 // ===============================
-// ✅ تحميل الأماكن
+// تحميل الأماكن
 // ===============================
 
 async function loadPlaces() {
@@ -82,7 +82,7 @@ async function loadPlaces() {
 
 
 // ===============================
-// ✅ نافذة المرشدين (كما كانت)
+// نافذة المرشدين (كما كانت)
 // ===============================
 async function openGuidesModal(placeId, placeTitle) {
   const modal = document.getElementById("guides-modal");
@@ -92,7 +92,7 @@ async function openGuidesModal(placeId, placeTitle) {
   title.textContent = `Available Guides for ${placeTitle}`;
   modal.classList.remove("hidden");
 
-  // ✅ عرض Skeleton قبل تحميل المرشدين
+  // عرض Skeleton قبل تحميل المرشدين
 list.innerHTML = `
   <div class="guide-card skeleton-guide">
     <div class="skeleton-guide-img"></div>
